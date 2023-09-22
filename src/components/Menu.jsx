@@ -23,8 +23,9 @@ const Menu = () => {
         
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto" id="menu">
-            <NavLink to="/" className={({isActive}) => isActive ? 'nav-item nav-link active': 'nav-item nav-link'} style={{textAlign: 'center'}}>Home</NavLink>
-            <NavLink to="/rooms" className={({isActive}) => isActive ? 'nav-item nav-link active': 'nav-item nav-link'} style={{textAlign: 'center'}}>Rooms</NavLink>
+            <NavLink to="/" className={({isActive}) => isActive ? 'nav-item nav-link active': 'nav-item nav-link'} style={{textAlign: 'center'}}>Inicio</NavLink>
+            <NavLink to="/rooms" className={({isActive}) => isActive ? 'nav-item nav-link active': 'nav-item nav-link'} style={{textAlign: 'center'}}>Habitaciones</NavLink>
+            <NavLink to="/register" className={({isActive}) => isActive ? 'nav-item nav-link active': 'nav-item nav-link'} style={{textAlign: 'center'}}>Registrar</NavLink>
           </Nav>
         </Navbar.Collapse>
         
