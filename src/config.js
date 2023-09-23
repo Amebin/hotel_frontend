@@ -4,9 +4,10 @@
  */
 
 const appConfig = {
-    API_BASE_URL: 'https://rolling55ibackend-production.up.railway.app',
-    GET_GIFTCARDS_ENDPOINT: 'api/giftcards',
+    API_BASE_URL: 'http://localhost:5010/',
     POST_USERS_LOGIN: 'api/users/login',
+    POST_USERS_REGISTER: 'api/users/create',
+    GET_ROOM_ENDPOINT: 'api/rooms',
     ADD_CART_ENDPOINT: 'api/users/cart/add'
 }
 
