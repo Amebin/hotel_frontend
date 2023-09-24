@@ -1,5 +1,6 @@
 import { Link, NavLink, useNavigate } from 'react-router-dom'
 import { Navbar, Nav, Container, Button } from 'react-bootstrap'
+import giftcard from '../img/giftcard.png'
 
 const Menu = () => {
   const navigate = useNavigate();
@@ -18,7 +19,9 @@ const Menu = () => {
   return (
     <Navbar bg="dark" variant="dark" expand="lg" style={{zIndex: 40000}}>
       <Container>
-        <Link className="navbar-brand" to="/">GiftCards Shop</Link>
+        <Link className="navbar-brand" to="/">
+        <img className="img-home" src={giftcard} alt="Portada Giftcards" />
+        </Link>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         
         <Navbar.Collapse id="basic-navbar-nav">
