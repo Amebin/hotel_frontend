@@ -28,12 +28,13 @@ const Menu = () => {
           <Nav className="me-auto" id="menu">
             <NavLink to="/" className={({isActive}) => isActive ? 'nav-item nav-link active': 'nav-item nav-link'} style={{textAlign: 'center'}}>Inicio</NavLink>
             <NavLink to="/rooms" className={({isActive}) => isActive ? 'nav-item nav-link active': 'nav-item nav-link'} style={{textAlign: 'center'}}>Habitaciones</NavLink>
-            <NavLink to="/register" className={({isActive}) => isActive ? 'nav-item nav-link active': 'nav-item nav-link'} style={{textAlign: 'center'}}>Registrar</NavLink>
           </Nav>
         </Navbar.Collapse>
         
         <Navbar.Collapse className=" justify-content-end">
+
           <Nav>
+            <NavLink to="/register" className={({isActive}) => isActive ? 'nav-item nav-link active': 'nav-item nav-link'} style={{textAlign: 'center'}}>Registrar</NavLink>
             {user ?
               <Button variant="warning" onClick={logOut}>{user.name} ({user.role})&nbsp;<i className="fa fa-sign-out me-1"></i></Button>
               :
