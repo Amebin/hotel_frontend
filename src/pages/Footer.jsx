@@ -12,7 +12,6 @@ const Footer = () => {
             <p>Tu dirección de correo electrónico</p>
           </Col>
           <Col md={6}>
-            <h5>Enlaces útiles</h5>
             <ul>
               <li><a href="/">Inicio</a></li>
               <li><a href="/nosotros">Nosotros</a></li>
@@ -22,9 +21,6 @@ const Footer = () => {
           </Col>
         </Row>
       </Container>
-      <div className="text-center py-3">
-        © {new Date().getFullYear()} Tu Empresa. Todos los derechos reservados.
-      </div>
     </footer>
   );
 };
