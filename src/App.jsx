@@ -7,6 +7,7 @@ import Error404 from './pages/Error404.jsx'
 import Rooms from './pages/Rooms.jsx'
 import { Spinner } from 'react-bootstrap'
 import globalState from './state.js'
+import Footer from './pages/Footer.jsx'
 
 function App() {
   // Recuperamos la variable global loading, para mostrar o no el spinner
@@ -28,9 +29,11 @@ function App() {
         <Route path="/cart" element={<Cart />} />
         <Route path="/login" element={<Login />} />
         <Route path="/rooms" element={<Rooms />} />
+        <Route path="/Footer" element={<Footer />} />
         
         <Route path="*" element={<Error404 />} />
       </Routes>
+      
     </Router>
   );
 }
