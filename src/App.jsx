@@ -8,6 +8,7 @@ import Rooms from './pages/Rooms.jsx'
 import { Spinner } from 'react-bootstrap'
 import globalState from './state.js'
 import Register from './pages/Register.jsx'
+import UserList from './components/admin/UserList.jsx'
 
 function App() {
   // Recuperamos la variable global loading, para mostrar o no el spinner
@@ -30,7 +31,8 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/rooms" element={<Rooms />} />
         <Route path="/register" element={<Register />} />
-        
+        <Route path="/userlist" element={<UserList />} />
+
         <Route path="*" element={<Error404 />} />
       </Routes>
 
