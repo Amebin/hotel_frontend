@@ -33,14 +33,13 @@ function App() {
         <Route path="/cart" element={<Cart />} />
         <Route path="/login" element={<Login />} />
         <Route path="/rooms" element={<Rooms />} />
-        <Route path="/Footer" element={<Footer />} />
         <Route path="/register" element={<Register />} />
         <Route path="/userlist" element={<UserList />} />
 
         <Route path="*" element={<Error404 />} />
       </Routes>
 
-
+      <Footer />
       
     </Router>
   );

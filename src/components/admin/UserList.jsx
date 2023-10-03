@@ -65,12 +65,12 @@ const UserList = () => {
     console.log(parsedAuth.token)
 
      const putMethod = {
-      method: 'PUT', // Method itself
+      method: 'PUT', 
       headers: {
-        'Content-type': 'application/json', // Indicates the content 
+        'Content-type': 'application/json', 
         'Authorization': `Bearer ${authToken.token}`
       },
-      body: JSON.stringify(data), // We send data in JSON format
+      body: JSON.stringify(data), 
     };
 
     fetch(`${appConfig.API_BASE_URL}${appConfig.PUT_USER_ENDPOINT}/${userId}`, putMethod)
