@@ -20,7 +20,7 @@ const Menu = () => {
     <Navbar bg="dark" variant="dark" expand="lg" style={{zIndex: 40000}}>
       <Container>
         <Link className="navbar-brand" to="/">
-        <img className="img-home" src={giftcard} alt="Portada Giftcards" />
+        <img className="img-home"  alt="Portada Giftcards" />
         </Link>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         

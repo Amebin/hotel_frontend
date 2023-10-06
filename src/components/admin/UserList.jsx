@@ -4,15 +4,15 @@ import appConfig from '../../config.js';
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
 
+
 const MySwal = withReactContent(Swal);
 
 const UserList = () => {
   const [userList, setUserList] = useState([]);
-  const [toastMsg, setToastMsg] = useState({ show: false, msg: '' });
-  const [show, setShow] = useState(false);
   const [userModals, setUserModals] = useState({})
   const authToken = localStorage.getItem('authToken')
   const parsedAuth = JSON.parse(authToken);
+  
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -34,21 +34,25 @@ const UserList = () => {
   const handleShow = (userId) => {
     setUserModals((prevUserModals) => ({
       ...prevUserModals,
-      [userId]: true, // Abre el modal del usuario correspondiente
+      [userId]: true, 
     }));
   };
 
   const handleClose = (userId) => {
     setUserModals((prevUserModals) => ({
       ...prevUserModals,
-      [userId]: false, // Cierra el modal del usuario correspondiente
+      [userId]: false, 
     }));
   };
+
+  const reloadPage = () => {
+    window.location.reload();
+  };
  
- const handleSubmit = (e) => {
+  const handleSubmit = async (e, userId) => {
     e.preventDefault();
     const form = e.currentTarget;
-    const userId = form.id.value;
+    
     const firstName = form.firstName.value;
     const lastName = form.lastName.value;
     const email = form.email.value;
@@ -62,46 +66,84 @@ const UserList = () => {
       active,
       role,
     };
-    console.log(parsedAuth.token)
-
-     const putMethod = {
-      method: 'PUT', 
-      headers: {
-        'Content-type': 'application/json', 
-        'Authorization': `Bearer ${authToken.token}`
-      },
-      body: JSON.stringify(data), 
-    };
-
-    fetch(`${appConfig.API_BASE_URL}${appConfig.PUT_USER_ENDPOINT}/${userId}`, putMethod)
-      .then((response) => {
-        if (response.ok) {
-          return response.json();
-        }
-        throw new Error('Error al modificar el usuario');
+   
+    try {
+      const putUser = await fetch(`${appConfig.API_BASE_URL}${appConfig.PUT_USER_ENDPOINT}/${userId}`, {
+        method: 'PUT', 
+        headers: {
+          'Content-type': 'application/json', 
+          'Authorization': `Bearer ${parsedAuth.token}`
+        },
+        body: JSON.stringify(data), 
       })
-      .then((dataJson) => {
+      
+      const resultPutUser = await putUser.json();
+
+      if (resultPutUser.status === 'OK') {
         MySwal.fire({
           title: 'Usuario modificado',
           icon: 'success',
-          text: `El usuario ${userId} ${dataJson.data} ha sido modificado correctamente`,
+          text: `El usuario ${userId} ${data.email} ha sido modificado correctamente`,
+          
         });
+        setTimeout(reloadPage, 2000);
         handleClose(userId);
-      })
-      .catch((err) => {
+      } else {
         MySwal.fire({
           title: 'Error',
           icon: 'error',
-          text: err.message,
+          text: resultPutUser.data,
         });
-      }); 
-
- }
-
-  const handleDeleteClick = (id) => {
-    // Llamar a la función de borrado pasando el ID del usuario
-
+      } 
+    } catch (err) {
+      MySwal.fire({
+        title: 'Error',
+        icon: 'error',
+        text: 'Algo salio muy mal, intentalo nuevamente mas tarde'
+      });
+    }
   };
+  
+  const handleDeleteClick = async (userId) => {
+    try {
+      const userConfirmed = window.confirm('¿Estás seguro? Esta acción no se puede deshacer.');
+  
+      if (userConfirmed) {
+        const deleteUser = await fetch(`${appConfig.API_BASE_URL}${appConfig.DEL_USER_ENDPOINT}/${userId}`, {
+          method: 'DELETE',
+          headers: {
+            'Content-type': 'application/json',
+            'Authorization': `Bearer ${parsedAuth.token}`
+          },
+        });
+        const resultDeleteUser = await deleteUser.json();
+        if (resultDeleteUser.status === 'OK') {
+          MySwal.fire({
+            title: 'Usuario eliminado',
+            icon: 'success',
+            text: `El usuario ${userId} ha sido eliminado correctamente`,
+            confirmButtonText: 'Ok',
+          }).then(() => {
+            reloadPage();
+          });
+          
+        } else {
+          MySwal.fire({
+            title: 'Error',
+            icon: 'error',
+            text: resultDeleteUser.data,
+          });
+        }
+      }
+    } catch (err) {
+      MySwal.fire({
+        title: 'Error',
+        icon: 'error',
+        text: 'Algo salió muy mal, inténtalo nuevamente más tarde'
+      });
+    }
+  };
+  
 
   return (
     <Container>
@@ -125,10 +167,7 @@ const UserList = () => {
                 <td>{user.active ? 'Sí' : 'No'}</td>
                 <td>
                   <Button variant="primary" onClick={() => handleShow(user._id)}>
-                    Editar
-                  </Button>
-                  <Button variant="danger" onClick={() => handleDeleteClick(user._id)}>
-                    Eliminar
+                    Gestionar
                   </Button>
                 </td>
               </tr>
@@ -137,7 +176,8 @@ const UserList = () => {
                   <Modal.Title>Editar Usuario</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                <Form onSubmit={handleSubmit}>
+                <Form onSubmit={(e) => handleSubmit(e, user._id)}>
+                <Form.Control type="hidden" name="id" value={user._id} />
                     <Form.Group controlId="firstName">
                       <Form.Label>Nombre</Form.Label>
                       <Form.Control type="text" name="firstName" defaultValue={user.firstName}  />
@@ -163,6 +203,9 @@ const UserList = () => {
                     </Form.Group>
                   <Button variant="primary" type="submit">
                     Modificar
+                  </Button>
+                  <Button variant="danger" onClick={() => handleDeleteClick(user._id) }>
+                    Eliminar
                   </Button>
                   <Button variant="secondary" onClick={() => handleClose(user._id)}>
                     Cerrar
