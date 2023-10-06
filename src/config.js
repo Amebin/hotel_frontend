@@ -11,6 +11,8 @@ const appConfig = {
     DEL_USER_ENDPOINT: 'api/users',
     POST_USERS_REGISTER: 'api/users/create',
     GET_ROOM_ENDPOINT: 'api/rooms',
+    PUT_ROOM_ENDPOINT: 'api/rooms/admin',
+    DEL_ROOM_ENDPOINT: 'api/rooms/admin',
 }
 
 export default appConfig

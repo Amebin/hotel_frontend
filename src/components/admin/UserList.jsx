@@ -124,7 +124,7 @@ const UserList = () => {
             text: `El usuario ${userId} ha sido eliminado correctamente`,
             confirmButtonText: 'Ok',
           }).then(() => {
-            reloadPage(); // Llama a la función reloadPage() al hacer clic en "Ok"
+            reloadPage();
           });
           
         } else {
@@ -169,9 +169,6 @@ const UserList = () => {
                   <Button variant="primary" onClick={() => handleShow(user._id)}>
                     Gestionar
                   </Button>
-                {/*   <Button variant="danger" onClick={() => handleDeleteClick(user._id)}>
-                    Eliminar
-                  </Button> */}
                 </td>
               </tr>
               <Modal show={userModals[user._id]} onHide={() => handleClose(user._id)} backdrop="static" keyboard={false}>
@@ -207,7 +204,7 @@ const UserList = () => {
                   <Button variant="primary" type="submit">
                     Modificar
                   </Button>
-                  <Button variant="primary" onClick={() => handleDeleteClick(user._id) }>
+                  <Button variant="danger" onClick={() => handleDeleteClick(user._id) }>
                     Eliminar
                   </Button>
                   <Button variant="secondary" onClick={() => handleClose(user._id)}>
