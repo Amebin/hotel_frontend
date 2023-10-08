@@ -28,6 +28,11 @@ const Menu = () => {
           <Nav className="me-auto" id="menu">
             <NavLink to="/" className={({isActive}) => isActive ? 'nav-item nav-link active': 'nav-item nav-link'} style={{textAlign: 'center'}}>Inicio</NavLink>
             <NavLink to="/rooms" className={({isActive}) => isActive ? 'nav-item nav-link active': 'nav-item nav-link'} style={{textAlign: 'center'}}>Habitaciones</NavLink>
+            <NavLink to="/userList" className={({isActive}) => isActive ? 'nav-item nav-link active': 'nav-item nav-link'} style={{textAlign: 'center'}}>Lista Usuarios</NavLink>
+            <NavLink to="/roomList" className={({isActive}) => isActive ? 'nav-item nav-link active': 'nav-item nav-link'} style={{textAlign: 'center'}}>Lista Habitaciones</NavLink>
+            <NavLink to="/createRoom" className={({isActive}) => isActive ? 'nav-item nav-link active': 'nav-item nav-link'} style={{textAlign: 'center'}}>Crear Habitaciones</NavLink>
+
+          
           </Nav>
         </Navbar.Collapse>
         
