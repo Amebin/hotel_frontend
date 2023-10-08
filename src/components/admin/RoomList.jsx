@@ -83,9 +83,10 @@ const RoomList = () => {
                     title: 'Habitacion modificada',
                     icon: 'success',
                     text: `La habitacion ${roomId} ${data.numberRoom} ha sido modificada correctamente`,
-
+                    confirmButtonText: 'Ok',
+                }).then(() => {
+                    reloadPage();
                 });
-               /*  setTimeout(reloadPage, 2000); */
                 handleClose(roomId);
             } else {
                 MySwal.fire({
