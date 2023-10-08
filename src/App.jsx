@@ -12,6 +12,7 @@ import Footer from './pages/Footer.jsx'
 import Register from './pages/Register.jsx'
 import UserList from './components/admin/UserList.jsx'
 import RoomList from './components/admin/RoomList.jsx'
+import CreateRoom from './components/admin/CreateRoom.jsx'
 
 function App() {
   // Recuperamos la variable global loading, para mostrar o no el spinner
@@ -36,6 +37,7 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/userlist" element={<UserList />} />
         <Route path="/roomlist" element={<RoomList />} />
+        <Route path="/createRoom" element={<CreateRoom />} />
 
         <Route path="*" element={<Error404 />} />
       </Routes>
