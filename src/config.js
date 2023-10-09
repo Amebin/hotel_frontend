@@ -4,7 +4,7 @@
  */
 
 const appConfig = {
-    API_BASE_URL: 'https://lastproyectbackend-production.up.railway.app/',
+    API_BASE_URL: 'http://localhost:5010/',
     GET_USERS_ENDPOINT: 'api/users',
     POST_USERS_LOGIN: 'api/users/login',
     PUT_USER_ENDPOINT: 'api/users',
@@ -13,6 +13,7 @@ const appConfig = {
     GET_ROOM_ENDPOINT: 'api/rooms',
     PUT_ROOM_ENDPOINT: 'api/rooms/admin',
     DEL_ROOM_ENDPOINT: 'api/rooms/admin',
+    CREATE_ROOM: 'api/rooms/admin',
 }
 
 export default appConfig

@@ -1,10 +1,9 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import Home from './pages/Home.jsx'
-import Cart from "./pages/Cart.jsx"
 import Login from "./pages/Login.jsx"
 import Menu from './components/Menu.jsx'
 import Error404 from './pages/Error404.jsx'
-import Rooms from './pages/Rooms.jsx'
+/* import Rooms from './pages/Rooms.jsx' */
 import { Spinner } from 'react-bootstrap'
 import globalState from './state.js'
 
@@ -31,9 +30,9 @@ function App() {
       */}
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/cart" element={<Cart />} />
+        
         <Route path="/login" element={<Login />} />
-        <Route path="/rooms" element={<Rooms />} />
+        {/* <Route path="/rooms" element={<Rooms />} /> */}
         <Route path="/register" element={<Register />} />
         <Route path="/userlist" element={<UserList />} />
         <Route path="/roomlist" element={<RoomList />} />

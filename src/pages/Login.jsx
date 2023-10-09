@@ -47,28 +47,28 @@ const Login = () => {
         body: JSON.stringify(userData),
       })
   
-      setLoading(false)
-  
+      setLoading(false) 
+      const responseData = await response.json()  
+      
       if (response.ok) {
-        const responseData = await response.json()
   
         if (response.status === 200) {
           localStorage.setItem('authToken', JSON.stringify(responseData.data))
           navigate('/', { replace: true })
         } else if (response.status === 400) {
-          setToastMsg({ show: true, msg: responseData.data || 'Datos de inicio de sesión incorrectos.', success: false })
+          setToastMsg({ show: true, msg: responseData.data, success: false })
         } else if (response.status === 401) {
-          setToastMsg({ show: true, msg: responseData.data || 'No estás autorizado para acceder a esta función.', success: false })
+          setToastMsg({ show: true, msg: responseData.data , success: false })
         } else if (response.status === 500) {
-          setToastMsg({ show: true, msg: responseData.data || 'Hubo un error en el servidor. Por favor, inténtalo de nuevo.', success: false })
+          setToastMsg({ show: true, msg: responseData.data , success: false })
         } else {
-          setToastMsg({ show: true, msg: 'Hubo un error en la solicitud. Por favor, inténtalo de nuevo.', success: false })
+          setToastMsg({ show: true, msg: responseData.data , success: false })
         }
       } else {
-        setToastMsg({ show: true, msg: 'Hubo un error en la solicitud. Por favor, inténtalo de nuevo.', success: false })
+        setToastMsg({ show: true, msg: responseData.data , success: false })
       }
     } catch (err) {
-      setToastMsg({ show: true, msg: 'Hubo un error al procesar la solicitud. Por favor, inténtalo de nuevo.', success: false })
+      setToastMsg({ show: true, msg: 'Algo salio muy mal. Por favor, inténtalo de nuevo.', success: false })
       setLoading(false)
     }
   }

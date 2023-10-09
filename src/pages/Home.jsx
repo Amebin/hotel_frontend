@@ -1,6 +1,5 @@
 import { Container, Row, Col, Card } from 'react-bootstrap'
 
-
 const Home = () => {
   return (
     <>
