@@ -3,20 +3,28 @@ import { Button, Table, Container, Row, Col, Modal, Form } from 'react-bootstrap
 import appConfig from '../../config.js';
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
-
-
+import Error404 from '../../pages/Error404.jsx'
+import { useJwt } from 'react-jwt';
 const MySwal = withReactContent(Swal);
 
 const UserList = () => {
   const [userList, setUserList] = useState([]);
   const [userModals, setUserModals] = useState({})
-  const authToken = localStorage.getItem('authToken')
+  const authToken = localStorage.getItem('authToken');
   const parsedAuth = JSON.parse(authToken);
+  const userToken = parsedAuth && parsedAuth.token ? parsedAuth.token : null;
+  const { decodedToken, isExpired } = useJwt(userToken || '');
+  const userRole = decodedToken ? decodedToken.role : null;
+
   
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(`${appConfig.API_BASE_URL}${appConfig.GET_USERS_ENDPOINT}`);
+        const response = await fetch(`${appConfig.API_BASE_URL}${appConfig.GET_USERS_ENDPOINT}`, {
+          headers: {
+              Authorization: `Bearer ${parsedAuth.token}`,
+          },
+      });
         if (response.ok) {
           const dataJson = await response.json();
           setUserList(dataJson.data);
@@ -147,7 +155,11 @@ const UserList = () => {
 
   return (
     <Container>
-      <Row>
+      { !authToken && <Error404 /> }
+      { authToken && userRole !== 'admin' && <Error404 /> }
+      {authToken && isExpired && <Error404 />}
+      { authToken && userRole === 'admin' && (
+        <Row>
         <Col>
           <Table striped bordered hover>
             <thead>
@@ -219,6 +231,8 @@ const UserList = () => {
 
         </Col>
       </Row>
+      ) }
+      
     </Container>
   );
 }

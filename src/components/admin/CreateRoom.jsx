@@ -4,10 +4,17 @@ import appConfig from '../../config.js';
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
 import globalState from '../../state.js'
+import Error404 from '../../pages/Error404.jsx'
+import { useJwt } from 'react-jwt';
 
 const MySwal = withReactContent(Swal);
 
 const CreateRoom = () => {
+    const authToken = localStorage.getItem('authToken')
+    const parsedAuth = JSON.parse(authToken);
+    const { decodedToken, isExpired } = useJwt(parsedAuth?.token || '');
+    const userRole = decodedToken ? decodedToken.role : null;
+
     const [validated, setValidated] = useState(false);
     const [formNewRoom, setFormNewRoom] = useState({
         numberRoom: '',
@@ -19,8 +26,6 @@ const CreateRoom = () => {
         size: '',
         capacity: ''
     });
-    const authToken = localStorage.getItem('authToken')
-    const parsedAuth = JSON.parse(authToken);
 
     const [toastMsg, setToastMsg] = useState({ show: false, msg: '' })
     const setLoading = globalState((state) => state.setLoading)
@@ -134,6 +139,11 @@ const CreateRoom = () => {
 
     return (
         <Container>
+        {!authToken && <Error404 />}
+          {authToken && userRole !== 'admin' && <Error404 />}
+          {authToken && isExpired && <Error404 />}
+          { authToken && userRole === 'admin' &&(
+            <Row>
             <Form noValidate validated={validated} onSubmit={handleCreateRoom}>
                 <Row className="mb-3">
                     <Form.Group as={Col} md="4" controlId="numberRoom">
@@ -284,8 +294,9 @@ const CreateRoom = () => {
                             <strong className="me-auto">Atencion!</strong>
                         </Toast.Header>
                         <Toast.Body>{toastMsg.msg}</Toast.Body>
-                    </Toast>
-
+            </Toast>
+            </Row>
+          )}
         </Container>
 
     )
