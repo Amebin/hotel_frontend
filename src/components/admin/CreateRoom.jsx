@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Container, Row, Col, Toast, Form, InputGroup } from 'react-bootstrap';
+import { Button, Container, Row, Col, Toast, Form } from 'react-bootstrap';
 import appConfig from '../../config.js';
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
@@ -14,8 +14,9 @@ const CreateRoom = () => {
     const parsedAuth = JSON.parse(authToken);
     const { decodedToken, isExpired } = useJwt(parsedAuth?.token || '');
     const userRole = decodedToken ? decodedToken.role : null;
-
+   
     const [validated, setValidated] = useState(false);
+    
     const [formNewRoom, setFormNewRoom] = useState({
         numberRoom: '',
         price: '',
@@ -26,15 +27,18 @@ const CreateRoom = () => {
         size: '',
         capacity: ''
     });
-
+    
     const [toastMsg, setToastMsg] = useState({ show: false, msg: '' })
     const setLoading = globalState((state) => state.setLoading)
- 
+    const reloadPage = () => {
+        window.location.reload();
+    };
 
     const handleChange = (event) => {
         setFormNewRoom({ ...formNewRoom, [event.target.name]: event.target.value })
     }
 
+   
     const handleCreateRoom = async (event) => {
         event.preventDefault();
        
@@ -112,17 +116,10 @@ const CreateRoom = () => {
                     icon: 'success',
                     text: `La habitacion ${newRoomData.numberRoom} ha sido creada correctamente`,
 
-                });
-                setFormNewRoom({
-                    numberRoom: '',
-                    price: '',
-                    type: '',
-                    image: '',
-                    tittle: '',
-                    description: '',
-                    size: '',
-                    capacity: ''
-                })
+                }).then(() => {
+                    reloadPage()
+                }
+                )                  
             } else if (response.status === 400) {
                 setToastMsg({ show: true, msg: resultResponse.data || 'La habitacion ya se encuentra registrada' })
               } else if (response.status === 500) {
@@ -133,6 +130,7 @@ const CreateRoom = () => {
             } catch (error) {
               setToastMsg({ show: true, msg: resultResponse.data || 'Algo salio muy mal, intentalo mas tarde por favor' })
             }
+            
 
     }    
 

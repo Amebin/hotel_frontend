@@ -15,6 +15,7 @@ const UserList = () => {
   const userToken = parsedAuth && parsedAuth.token ? parsedAuth.token : null;
   const { decodedToken, isExpired } = useJwt(userToken || '');
   const userRole = decodedToken ? decodedToken.role : null;
+  const [forceUpdate, setForceUpdate] = useState(false);
 
   
   useEffect(() => {
@@ -37,7 +38,7 @@ const UserList = () => {
     };
 
     fetchData();
-  }, []);
+  }, [forceUpdate]);
 
   const handleShow = (userId) => {
     setUserModals((prevUserModals) => ({
@@ -53,10 +54,6 @@ const UserList = () => {
     }));
   };
 
-  const reloadPage = () => {
-    window.location.reload();
-  };
- 
   const handleSubmit = async (e, userId) => {
     e.preventDefault();
     const form = e.currentTarget;
@@ -91,10 +88,11 @@ const UserList = () => {
         MySwal.fire({
           title: 'Usuario modificado',
           icon: 'success',
-          text: `El usuario ${userId} ${data.email} ha sido modificado correctamente`,
-          
-        });
-        setTimeout(reloadPage, 2000);
+          text: `El usuario ${userId} ${data.email} ha sido modificado correctamente`, 
+        }).then(() => {
+          setForceUpdate((prevForceUpdate) => !prevForceUpdate);
+      }
+      );        
         handleClose(userId);
       } else {
         MySwal.fire({
@@ -132,8 +130,9 @@ const UserList = () => {
             text: `El usuario ${userId} ha sido eliminado correctamente`,
             confirmButtonText: 'Ok',
           }).then(() => {
-            reloadPage();
-          });
+            setForceUpdate((prevForceUpdate) => !prevForceUpdate);
+        }
+        );
           
         } else {
           MySwal.fire({

@@ -15,7 +15,7 @@ const RoomList = () => {
     const parsedAuth = JSON.parse(authToken);
     const { decodedToken, isExpired } = useJwt(parsedAuth?.token || '');
     const userRole = decodedToken ? decodedToken.role : null;
-
+    const [forceUpdate, setForceUpdate] = useState(false);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -37,7 +37,7 @@ const RoomList = () => {
         };
 
         fetchData();
-    }, []);
+    }, [forceUpdate]);
 
     const handleShow = (roomId) => {
         setRoomModals((prevRoomModals) => ({
@@ -51,11 +51,6 @@ const RoomList = () => {
             ...prevRoomModals,
             [roomId]: false,
         }));
-    };
-
-
-    const reloadPage = () => {
-        window.location.reload();
     };
 
     const handleDateChange = (e, index, roomId) => {
@@ -87,7 +82,7 @@ const RoomList = () => {
             tipeRoom,
             images,
         };
-        console.log(data);
+        
 
         try {
             const putRoom = await fetch(`${appConfig.API_BASE_URL}${appConfig.PUT_ROOM_ENDPOINT}/${roomId}`, {
@@ -108,8 +103,9 @@ const RoomList = () => {
                     text: `La habitacion ${roomId} ${data.numberRoom} ha sido modificada correctamente`,
                     confirmButtonText: 'Ok',
                 }).then(() => {
-                    reloadPage();
-                });
+                    setForceUpdate((prevForceUpdate) => !prevForceUpdate);
+                }
+                );
                 handleClose(roomId);
             } else {
                 MySwal.fire({
@@ -147,8 +143,9 @@ const RoomList = () => {
                         text: `La habitacion ${roomId} ha sido eliminado correctamente`,
                         confirmButtonText: 'Ok',
                     }).then(() => {
-                        reloadPage();
-                    });
+                        setForceUpdate((prevForceUpdate) => !prevForceUpdate);
+                    }
+                    );
 
                 } else {
                     MySwal.fire({
