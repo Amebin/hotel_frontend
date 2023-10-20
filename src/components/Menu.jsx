@@ -1,7 +1,7 @@
 import { Link, NavLink, useNavigate } from 'react-router-dom'
 import { Navbar, Nav, Container, Button } from 'react-bootstrap'
 import { useJwt } from 'react-jwt';
-import './Menu.css'
+import './menu.css'
 
 const Menu = () => {
   const navigate = useNavigate();
