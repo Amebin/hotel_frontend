@@ -4,7 +4,7 @@
  */
 
 const appConfig = {
-    API_BASE_URL: 'http://localhost:5010/',
+    API_BASE_URL: 'https://api-hotel-85iz.onrender.com/',
     GET_USERS_ENDPOINT: 'api/users',
     POST_USERS_LOGIN: 'api/users/login',
     PUT_USER_ENDPOINT: 'api/users',
@@ -14,6 +14,10 @@ const appConfig = {
     PUT_ROOM_ENDPOINT: 'api/rooms/admin',
     DEL_ROOM_ENDPOINT: 'api/rooms/admin',
     CREATE_ROOM: 'api/rooms/admin',
+    RESERVATION_ROOM: 'api/rooms/reserved',
+    RESERVED_ADMIN: 'api/reserved/admin/reservations',
+    RESERVED_ROOM: 'api/reserved/reservation',
+    DELETE_RESERVATION: 'api/reserved/admin/deletereservation',
 }
 
 export default appConfig
