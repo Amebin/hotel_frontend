@@ -13,14 +13,14 @@ const Login = () => {
   const [frm, setFrm] = useState({ email: '', password: '' })
   const [toastMsg, setToastMsg] = useState({ show: false, msg: '' })
   const setLoading = globalState((state) => state.setLoading)
+  
 
   useEffect(() => {
     (async () => {
     })()
-
     return () => { }
   }, [])
-
+  
   const handleChange = (event) => {
     setFrm({ ...frm, [event.target.name]: event.target.value })
   }
@@ -53,7 +53,7 @@ const Login = () => {
       if (response.ok) {
   
         if (response.status === 200) {
-          localStorage.setItem('authToken', JSON.stringify(responseData.data))
+          localStorage.setItem('authToken', JSON.stringify({ token: responseData.data.token}))
           navigate('/', { replace: true })
         } else if (response.status === 400) {
           setToastMsg({ show: true, msg: responseData.data, success: false })
