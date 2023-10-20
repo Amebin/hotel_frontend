@@ -1,0 +1,8 @@
+/*
+:valid e :invalid son pseudoclases que la especificación HTML aplica de forma automática
+a los campos de formulario, según pasen o no los requerimientos especificados (required,
+minlength, maxlength, etc).
+
+Son una ayuda para agregar rápidamente indicadores visuales del estado de los campos
+*/
+

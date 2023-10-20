@@ -1,0 +1,66 @@
+#home #carouselDiv {
+  margin-bottom: 1em;
+}
+
+.image-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(30, 0, 119, 0.4);
+}
+
+#carouselDiv .carousel-caption {
+  text-shadow: 2px 2px 4px rgba(0, 0, 0);
+}
+
+#section_2 {
+  margin-bottom: 2vh;
+}
+
+#section_2 picture {
+  width: 95vw;
+}
+
+#section_2 picture img {
+  width: 100%;
+  border-top-left-radius: 10vh;
+  border-bottom-right-radius: 10vh;
+}
+
+#servicesRow {
+  padding-top: 4vh;
+}
+
+#servicesRow .accordion-item {
+  margin-bottom: 2vh;
+}
+
+#servicesRow .accordion-item,
+#servicesRow button {
+  border-radius: 10px;
+  background: var(--blue-100);
+  border: var(--blue-400) solid 1px;
+}
+
+@media screen and (min-width: 348px) {
+  #carouselDiv .carousel-item {
+    height: 80vh;
+  }
+
+  #carouselDiv .carousel-item img {
+    min-height: 100%;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  #section_2 picture {
+    width: 50vw;
+  }
+
+  #section_2 picture img {
+    border-top-left-radius: 10vw;
+    border-bottom-right-radius: 10vw;
+  }
+}

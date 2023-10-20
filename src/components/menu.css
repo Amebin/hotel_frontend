@@ -1,0 +1,38 @@
+nav {
+    background-color: var(--blue-400);
+    margin-bottom: 0.5em;
+    font-size: 0.9em;
+}
+
+#menuContainer {
+    text-align: center;
+}
+
+#menuContainer a.active {
+    background-color: var(--blue-700);
+    border-radius: 0.3em;
+    margin-bottom: 0.5em;
+}
+
+#menuContainer a.active:hover {
+    background-color: var(--blue-600);
+}
+
+#menuContainer .logButton{
+    background-color: var(--blue-500);
+}
+
+#menuContainer .logButton:hover{
+    background-color: var(--blue-600);
+}
+
+#burguerButton{
+    border: white 1px solid;
+    color: var(--blue-100);
+    margin-bottom: 3px;
+}
+
+#menuContainer a, #menuContainer .logButton, #burguerButton {
+    transition: background-color 0.3s ease;
+}
+
