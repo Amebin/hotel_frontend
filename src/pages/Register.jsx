@@ -1,9 +1,9 @@
 import { Container, Row, Col, Form, Button, Toast } from 'react-bootstrap'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import appConfig from '../config.js'
 import globalState from '../state.js'
-/* import './Register.css' */
+
 
 const Register = () => {
     const navigate = useNavigate()
@@ -16,9 +16,12 @@ const Register = () => {
         address: '',
         city: '',
     })
+    const [password1, setPassword1] = useState('')
+
     const [toastMsg, setToastMsg] = useState({ show: false, msg: '' })
     const [isChecked, setIsChecked] = useState(false)
     const setLoading = globalState((state) => state.setLoading)
+    
 
     const handleChange = (event) => {
         if (event.target.name === 'termsAndConditions') {
@@ -26,19 +29,27 @@ const Register = () => {
         } else {
             setFrm({ ...frm, [event.target.name]: event.target.value })
         }
+
+        if (event.target.name === 'password1') {
+            setPassword1(event.target.value)
+        }
+
     }
 
     const handleSubmit = async (e) => {
         e.preventDefault()
-
+    
         if (!isChecked) {
             setToastMsg({ show: true, msg: 'Debes aceptar los términos y condiciones para registrarte.' })
             return
         }
 
-        if (!frm.firstName || !frm.lastName || !frm.email || !frm.password || !frm.phone || !frm.address || !frm.city) {
-            setToastMsg({ show: true, msg: 'Por favor, completa todos los campos.' })
-            return
+        const requiredFields = ['firstName', 'lastName', 'email', 'password', 'phone', 'address', 'city'];
+        for (const field of requiredFields) {
+            if (!frm[field]) {
+                setToastMsg({ show: true, msg: `El campo ${field} es obligatorio.` })
+                return;
+            }
         }
 
         const emailRegex = /\S+@\S+\.\S+/
@@ -58,52 +69,55 @@ const Register = () => {
             return
         }
 
+        if (frm.password !== password1) {
+            setToastMsg({ show: true, msg: 'Las contraseñas no coinciden.' })
+            return
+        }
+
         try {
+            setLoading(true)
             const userData = {
-              firstName: frm.firstName,
-              lastName: frm.lastName,
-              email: frm.email,
-              password: frm.password,
-              phone: frm.phone,
-              address: frm.address,
-              city: frm.city,
+                firstName: frm.firstName,
+                lastName: frm.lastName,
+                email: frm.email,
+                password: frm.password,
+                phone: frm.phone,
+                address: frm.address,
+                city: frm.city,
             }
-          
+
             const response = await fetch(`${appConfig.API_BASE_URL}${appConfig.POST_USERS_REGISTER}`, {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-              },
-              body: JSON.stringify(userData),
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(userData),
             })
-          
+
             if (response.status === 201) {
-              setToastMsg({ show: true, msg: 'Registro exitoso, por favor inicia sesión.' })
-              setLoading(true)
-              setTimeout(() => {
-                navigate('/login')
+                setToastMsg({ show: true, msg: 'Registro exitoso, por favor inicia sesión.' })
                 setLoading(false)
-              }, 3000)
             } else if (response.status === 400) {
-              const data = await response.json()
-              setToastMsg({ show: true, msg: data.error || 'El correo electrónico ya está registrado.' })
+                const data = await response.json()
+                setToastMsg({ show: true, msg: data.error || 'El correo electrónico ya está registrado.' })
             } else if (response.status === 500) {
-              setToastMsg({ show: true, msg: 'Hubo un error en el servidor. Por favor, inténtalo de nuevo más tarde.' })
+                setToastMsg({ show: true, msg: 'Hubo un error en el servidor. Por favor, inténtalo de nuevo más tarde.' })
             } else {
-              setToastMsg({ show: true, msg: 'Hubo un error al registrar el usuario. Por favor, inténtalo de nuevo.' })
+                setToastMsg({ show: true, msg: 'Hubo un error al registrar el usuario. Por favor, inténtalo de nuevo.' })
             }
-          } catch (error) {
+        } catch (error) {
             setToastMsg({ show: true, msg: 'Hubo un error al registrar el usuario. Por favor, inténtalo de nuevo.' })
-          }
-          
-          
+        }
+
+        navigate('/login')
+
     }
 
     return (
         <Container>
             <Row>
                 <Col>
-                    <Form onSubmit={handleSubmit}>
+                    <Form noValidate onSubmit={handleSubmit}>
                         <Form.Group controlId="firstName">
                             <Form.Label>Nombre</Form.Label>
                             <Form.Control
@@ -111,6 +125,7 @@ const Register = () => {
                                 name="firstName"
                                 value={frm.firstName}
                                 onChange={handleChange}
+                                isInvalid={!frm.firstName || frm.firstName.length < 2}
                             />
                         </Form.Group>
 
@@ -121,6 +136,7 @@ const Register = () => {
                                 name="lastName"
                                 value={frm.lastName}
                                 onChange={handleChange}
+                                isInvalid={!frm.lastName || frm.lastName.length < 2}
                             />
                         </Form.Group>
 
@@ -131,7 +147,9 @@ const Register = () => {
                                 name="email"
                                 value={frm.email}
                                 onChange={handleChange}
+                                isInvalid={!frm.email || !/\S+@\S+\.\S+/.test(frm.email)}
                             />
+                           
                         </Form.Group>
 
                         <Form.Group controlId="password">
@@ -141,6 +159,18 @@ const Register = () => {
                                 name="password"
                                 value={frm.password}
                                 onChange={handleChange}
+                                isInvalid={!frm.password || frm.password.length < 8}
+                            />
+                        </Form.Group>
+
+                        <Form.Group controlId="password1">
+                            <Form.Label>Repetir Contraseña</Form.Label>
+                            <Form.Control
+                                type="password"
+                                name="password1"
+
+                                onChange={handleChange}
+                                isInvalid={!password1 || frm.password !== password1}
                             />
                         </Form.Group>
 
@@ -151,6 +181,7 @@ const Register = () => {
                                 name="phone"
                                 value={frm.phone}
                                 onChange={handleChange}
+                                isInvalid={!frm.phone}
                             />
                         </Form.Group>
 
@@ -161,6 +192,7 @@ const Register = () => {
                                 name="address"
                                 value={frm.address}
                                 onChange={handleChange}
+                                isInvalid={!frm.address}
                             />
                         </Form.Group>
 
@@ -171,6 +203,7 @@ const Register = () => {
                                 name="city"
                                 value={frm.city}
                                 onChange={handleChange}
+                                isInvalid={!frm.city}
                             />
                         </Form.Group>
 
@@ -184,6 +217,7 @@ const Register = () => {
                                 name="termsAndConditions"
                                 checked={isChecked}
                                 onChange={handleChange}
+                                isInvalid={!isChecked}
                             />
                         </Form.Group>
 
