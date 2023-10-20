@@ -1,62 +1,33 @@
-body {
-    background-color: black; 
-}
-
-.container-home {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    color: white;
-    background-color: rgb(65, 58, 155);
-}
-
-.container-blocks {
-    border-radius: 0.5em;
-}
-
-.col-home {
-    display: flex;
-    height: 100%;
-    justify-content: center;
-    align-items: center;
-}
-
-
-
-.cart-box {
-    position: fixed;
-    top: 5em;
-    right: 1em;
-    z-index: 30000;
-    padding: 1em;
-    background-color: #de1111;
-    border-radius: 0.5em;
-    text-align: center;
-    color: #fff;
-}
-
-.nav-item {
-    margin-bottom: 0.5em;
+:root {
+  --blue-50: rgb(242, 240, 255);
+  --blue-100: rgb(232, 228, 255);
+  --blue-200: rgb(210, 205, 255);
+  --blue-300: rgb(179, 166, 255);
+  --blue-400: rgb(142, 115, 255);
+  --blue-500: rgb(108, 59, 255);
+  --blue-600: rgb(92, 20, 255);
+  --blue-700: rgb(76, 0, 255);
+  --blue-800: rgb(64, 1, 214);
+  --blue-900: rgb(54, 3, 175);
+  --blue-950: rgb(30, 0, 119);
 }
 
 .loading-box {
-    position: fixed;
-    top: 1em;
-    left: 1em;
-    z-index: 50000;
+  position: fixed;
+  top: 1em;
+  left: 1em;
+  z-index: 50000;
 }
 
-#menu a.active {
-    background-color: #fc0;
-    color: #333;
-    border-radius: 0.3em;
+body {
+  background-color: var(--blue-100);
+  font-family: 'Roboto', sans-serif;
+  color: var(--blue-950);
+  font-size: 1.2em;
 }
 
-#menu a.active:hover {
-    background-color: #fb0;
-}
-
-#error404 {
-    width: 100%;
+@media screen and (max-width:576px){
+  body{
+      font-size: 0.9em;
+  }
 }
