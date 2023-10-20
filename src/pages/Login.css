@@ -6,10 +6,3 @@ minlength, maxlength, etc).
 Son una ayuda para agregar rápidamente indicadores visuales del estado de los campos
 */
 
-input:valid {
-    outline: 2px solid green;
-}
-
-input:invalid {
-    outline: 2px solid #900;
-}
