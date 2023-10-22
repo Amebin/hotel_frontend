@@ -21,7 +21,7 @@ const Menu = () => {
   };
 
   return (
-    <Navbar  variant="dark" expand="lg" style={{ zIndex: 40000 }}>
+    <Navbar sticky="top" variant="dark" expand="lg" style={{ zIndex: 40000 }}>
       <Container id='menuContainer'>
         <Link className="navbar-brand" to="/">
           <img className="img-home" alt="Portada Hotel" />
