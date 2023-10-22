@@ -168,12 +168,14 @@ const UserList = () => {
     }
   };
 
+  
+
   return (
     <Container>
       {!authToken && <Error404 />}
       {authToken && userRole !== 'admin' && <Error404 />}
       {authToken && isExpired && <Error404 />}
-      {authToken && userRole === 'admin' && (
+      {authToken && userRole === 'admin' && !isExpired &&(
         <Col>
           <Row>
             <Table striped bordered hover>

@@ -140,7 +140,7 @@ const CreateRoom = () => {
         {!authToken && <Error404 />}
           {authToken && userRole !== 'admin' && <Error404 />}
           {authToken && isExpired && <Error404 />}
-          { authToken && userRole === 'admin' &&(
+          { authToken && userRole === 'admin' && !isExpired && (
             <Row>
             <Form noValidate validated={validated} onSubmit={handleCreateRoom}>
                 <Row className="mb-3">
