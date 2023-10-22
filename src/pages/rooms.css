@@ -1,0 +1,36 @@
+#roomCards .card {
+    margin: 2vh 0 2vh 0;
+    border-radius: 1vh;
+    background: var(--blue-100);
+    border: var(--blue-400) solid 1px;
+    color: var(--blue-950);
+}
+
+#roomCards .buttonConfirmation,
+.modal .buttonConfirmation {
+    background: var(--blue-500);
+}
+
+.modal {
+    padding-top: 8.5vh;
+}
+
+.modal .modal-content{
+    background-color: var(--blue-100);
+    border: var(--blue-400) solid 1px;
+}
+
+.modal img{
+    margin-bottom: 1vh;
+}
+
+.modal #modalButtons{
+    justify-content: end;
+    margin-right: 0;
+}
+
+.modal button{
+    max-width: 38%;
+    margin: 1vh 0 0 1vh;
+    
+}
