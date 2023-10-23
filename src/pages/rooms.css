@@ -24,6 +24,10 @@
     margin-bottom: 1vh;
 }
 
+.modal #reservationDate{
+    background-color: var(--blue-50);
+}
+
 .modal #modalButtons{
     justify-content: end;
     margin-right: 0;
@@ -34,3 +38,4 @@
     margin: 1vh 0 0 1vh;
     
 }
+
