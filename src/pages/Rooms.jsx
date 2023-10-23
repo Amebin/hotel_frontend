@@ -128,8 +128,10 @@ const Rooms = () => {
 
     return (
         <Container id='roomCards'>
+            <Row>
             {rooms.map((room) => (
-                <Card key={room._id}>
+               <Col key={room._id} sm={{ span: 8, offset: 2 }} md={{ span: 6, offset: 0 }} lg={4} xxl={3}> 
+               <Card >
                     <Card.Img variant="top" src={room.images} />
                     <Card.Body>
                         <Card.Title>Card Title</Card.Title>
@@ -165,7 +167,7 @@ const Rooms = () => {
 
                             <Form onSubmit={(e) => handleSubmit(e, room._id)}>
                                 <Form.Control type="hidden" name="id" value={room._id} />
-                                <Form.Select aria-label="Default select example" onChange={handleDateChange}>
+                                <Form.Select aria-label="Default select" id='reservationDate' onChange={handleDateChange}>
                                     <option>Selecciona la fecha de la reserva</option>
                                     {room.avaliableDates.map((date, index) => (
                                         <option key={index} value={date}>
@@ -179,9 +181,7 @@ const Rooms = () => {
                                 <Button className='buttonConfirmation' type="submit">
                                     Reservar
                                 </Button>
-                                
-
-                            
+                                                            
                                 <Button  variant="secondary" onClick={() => handleClose(room._id)}>
                                     Cerrar
                                 </Button>
@@ -192,7 +192,9 @@ const Rooms = () => {
                     </Modal>
 
                 </Card>
+               </Col>
             ))}
+            </Row>
         </Container>
     )
 }

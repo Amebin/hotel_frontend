@@ -1,0 +1,7 @@
+#reservations .card{
+    margin: 2vh 0 2vh 0;
+    border-radius: 1vh; 
+    background: var(--blue-50);
+    border: var(--blue-400) solid 1px;
+    color: var(--blue-950);
+}
