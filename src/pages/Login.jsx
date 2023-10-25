@@ -76,17 +76,16 @@ const Login = () => {
 
   return (
     <>
-      <Container className="container-fluid container-home">
+      <Container className="container-fluid" id='loginContainer'>
         <Row>
-          <Col xs={12} sm={6} className="col-home">
-            <Row className="p-3">
-              <h1>¿Tienes una Gift Card?</h1>
-              <h3>Prueba todas las marcas que la aceptan de manera online</h3>
+          <Col sm={{ span: 10, offset: 1 }} md={{ span: 8, offset: 2 }} lg={{ span: 6, offset: 3}} xl={{ span: 5, offset: 0}} xxl={{ span: 4, offset: 1}}>
+            <Row className="text-center">
+              <h1>¿Tenes una cuenta?</h1>
+              <h3>Ingresa y reserva la fecha que mas se ajuste a tus tiempos</h3>
             </Row>
           </Col>
-
-          <Col xs={12} sm={6} className="col-home">
-            <Row className="card p-3" style={{ width: '100%' }}>
+          <Col sm={{ span: 10, offset: 1 }} md={{ span: 8, offset: 2 }} lg={{ span: 6, offset: 3}} xl={{ span: 5, offset: 0}} xxl={{ span: 4, offset: 1}} id='colLogin'>
+            <Row className="card">
               <Form noValidate onSubmit={handleSubmit}>
                 <Form.Group className="mb-3">
                   <Form.Label>Email</Form.Label>
@@ -106,6 +105,7 @@ const Login = () => {
                   <Form.Label>Clave</Form.Label>
                   <Form.Control
                     type="password"
+                    placeholder="Clave"
                     value={frm.password}
                     name="password"
                     maxLength={12}
@@ -114,7 +114,7 @@ const Login = () => {
                   />
                 </Form.Group>
 
-                <Button type="submit" variant="warning">
+                <Button type="submit">
                   Ingresar
                 </Button>
               </Form>
@@ -130,14 +130,14 @@ const Login = () => {
           style={{
             position: 'fixed',
             bottom: '1em',
-            right: '1em',
+            right: '0',
             zIndex: '1000',
             backgroundColor: toastMsg.success ? '#28a745' : '#dc3545', 
             color: '#fff',
           }}
         >
           <Toast.Header>
-            <FontAwesomeIcon icon={toastMsg.success ? faCheckCircle : faExclamationTriangle} size="2x" />&nbsp
+            <FontAwesomeIcon icon={toastMsg.success ? faCheckCircle : faExclamationTriangle} size="2x" />
             <strong className="me-auto">{toastMsg.success ? 'Éxito' : 'Error'}</strong>
             <small>Ahora</small>
           </Toast.Header>
