@@ -61,7 +61,7 @@ const Menu = () => {
             )}
 
             {user ?
-              <Button className="logButton" onClick={logOut}>{userName} ({userRole})&nbsp;<i className="fa fa-sign-out me-1"></i></Button>
+              <Button className="logButton" onClick={logOut}>{userName} ({userRole})&nbsp;<i className="fa fa-sign-out"></i></Button>
               :
               <Button className="logButton" onClick={logIn}><i className="fa fa-user"></i> Ingresar</Button>
             }
