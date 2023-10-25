@@ -1,0 +1,28 @@
+footer{
+    background-color: var(--blue-100);
+}
+footer #rowFooter{
+    margin-top: 2vh;
+    margin-bottom: 2vh;
+}
+
+footer a:hover{
+    text-decoration: underline;
+}
+
+/* @media screen and (min-width: 768px){
+    #footerContainer{
+        position: sticky;
+        bottom: 0;
+        top: 0;
+        left: 0;
+        right: 0;
+    }
+} */
+
+@media screen and (min-width: 1200px){
+    footer .colFooter{
+        padding: 0;
+    }
+}
+

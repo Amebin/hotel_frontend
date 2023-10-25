@@ -1,21 +1,21 @@
-import React, { useEffect, useState } from 'react';
-import { Button, Table, Container, Row, Col, Modal, Form } from 'react-bootstrap';
-import appConfig from '../../config.js';
-import Swal from 'sweetalert2';
-import withReactContent from 'sweetalert2-react-content';
+import React, { useEffect, useState } from 'react'
+import { Button, Table, Container, Row, Col, Modal, Form } from 'react-bootstrap'
+import appConfig from '../../config.js'
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
 import Error404 from '../../pages/Error404.jsx'
-import { useJwt } from 'react-jwt';
+import { useJwt } from 'react-jwt'
 
-const MySwal = withReactContent(Swal);
+const MySwal = withReactContent(Swal)
 
 const RoomList = () => {
-    const [roomList, setRoomList] = useState([]);
+    const [roomList, setRoomList] = useState([])
     const [roomModals, setRoomModals] = useState({})
     const authToken = localStorage.getItem('authToken')
-    const parsedAuth = JSON.parse(authToken);
-    const { decodedToken, isExpired } = useJwt(parsedAuth?.token || '');
-    const userRole = decodedToken ? decodedToken.role : null;
-    const [forceUpdate, setForceUpdate] = useState(false);
+    const parsedAuth = JSON.parse(authToken)
+    const { decodedToken, isExpired } = useJwt(parsedAuth?.token || '')
+    const userRole = decodedToken ? decodedToken.role : null
+    const [forceUpdate, setForceUpdate] = useState(false)
 
     useEffect(() => {
         const fetchData = async () => {
@@ -24,64 +24,64 @@ const RoomList = () => {
                     headers: {
                         Authorization: `Bearer ${parsedAuth.token}`,
                     },
-                });
+                })
                 if (response.ok) {
-                    const dataJson = await response.json();
-                    setRoomList(dataJson.data);
+                    const dataJson = await response.json()
+                    setRoomList(dataJson.data)
                 } else {
-                    throw new Error('Error al obtener la lista de habitaciones');
+                    throw new Error('Error al obtener la lista de habitaciones')
                 }
             } catch (err) {
-                setToastMsg({ show: true, msg: err.message });
+                setToastMsg({ show: true, msg: err.message })
             }
-        };
+        }
 
-        fetchData();
-    }, [forceUpdate]);
+        fetchData()
+    }, [forceUpdate])
 
     const handleShow = (roomId) => {
         setRoomModals((prevRoomModals) => ({
             ...prevRoomModals,
             [roomId]: true,
-        }));
-    };
+        }))
+    }
 
     const handleClose = (roomId) => {
         setRoomModals((prevRoomModals) => ({
             ...prevRoomModals,
             [roomId]: false,
-        }));
-    };
+        }))
+    }
 
     const handleDateChange = (e, index, roomId) => {
-        const { value } = e.target;
+        const { value } = e.target
 
         setRoomDates((prevRoomDates) => {
-            const updatedDates = [...prevRoomDates[roomId]];
-            updatedDates[index] = value;
+            const updatedDates = [...prevRoomDates[roomId]]
+            updatedDates[index] = value
             return {
                 ...prevRoomDates,
                 [roomId]: updatedDates,
-            };
-        });
-    };
+            }
+        })
+    }
 
 
     const handleSubmit = async (e, roomId) => {
-        e.preventDefault();
-        const form = e.currentTarget;
+        e.preventDefault()
+        const form = e.currentTarget
 
-        const numberRoom = form.numberRoom.value;
-        const price = form.price.value;
-        const tipeRoom = form.tipeRoom.value;
-        const images = form.images.value;
+        const numberRoom = form.numberRoom.value
+        const price = form.price.value
+        const tipeRoom = form.tipeRoom.value
+        const images = form.images.value
 
         const data = {
             numberRoom,
             price,
             tipeRoom,
             images,
-        };
+        }
         
 
         try {
@@ -94,7 +94,7 @@ const RoomList = () => {
                 body: JSON.stringify(data),
             })
 
-            const resultPutRoom = await putRoom.json();
+            const resultPutRoom = await putRoom.json()
 
             if (resultPutRoom.status === 'OK') {
                 MySwal.fire({
@@ -103,29 +103,29 @@ const RoomList = () => {
                     text: `La habitacion ${roomId} ${data.numberRoom} ha sido modificada correctamente`,
                     confirmButtonText: 'Ok',
                 }).then(() => {
-                    setForceUpdate((prevForceUpdate) => !prevForceUpdate);
+                    setForceUpdate((prevForceUpdate) => !prevForceUpdate)
                 }
-                );
-                handleClose(roomId);
+                )
+                handleClose(roomId)
             } else {
                 MySwal.fire({
                     title: 'Error',
                     icon: 'error',
                     text: resultPutRoom.data,
-                });
+                })
             }
         } catch (err) {
             MySwal.fire({
                 title: 'Error',
                 icon: 'error',
                 text: 'Algo salio muy mal, intentalo nuevamente mas tarde'
-            });
+            })
         }
-    };
+    }
 
     const handleDeleteClick = async (roomId) => {
         try {
-            const roomConfirmed = window.confirm('¿Estás seguro? Esta acción no se puede deshacer.');
+            const roomConfirmed = window.confirm('¿Estás seguro? Esta acción no se puede deshacer.')
 
             if (roomConfirmed) {
                 const deleteRoom = await fetch(`${appConfig.API_BASE_URL}${appConfig.DEL_ROOM_ENDPOINT}/${roomId}`, {
@@ -134,8 +134,8 @@ const RoomList = () => {
                         'Content-type': 'application/json',
                         'Authorization': `Bearer ${parsedAuth.token}`
                     },
-                });
-                const resultDeleteRoom = await deleteRoom.json();
+                })
+                const resultDeleteRoom = await deleteRoom.json()
                 if (resultDeleteRoom.status === 'OK') {
                     MySwal.fire({
                         title: 'Habitacion eliminada',
@@ -143,16 +143,16 @@ const RoomList = () => {
                         text: `La habitacion ${roomId} ha sido eliminado correctamente`,
                         confirmButtonText: 'Ok',
                     }).then(() => {
-                        setForceUpdate((prevForceUpdate) => !prevForceUpdate);
+                        setForceUpdate((prevForceUpdate) => !prevForceUpdate)
                     }
-                    );
+                    )
 
                 } else {
                     MySwal.fire({
                         title: 'Error',
                         icon: 'error',
                         text: resultDeleteRoom.data,
-                    });
+                    })
                 }
             }
         } catch (err) {
@@ -160,10 +160,9 @@ const RoomList = () => {
                 title: 'Error',
                 icon: 'error',
                 text: 'Algo salió muy mal, inténtalo nuevamente más tarde'
-            });
+            })
         }
-    };
-
+    }
 
     return (
         <Container>
@@ -265,7 +264,7 @@ const RoomList = () => {
 
             }
         </Container>
-    );
+    )
 }
 
 export default RoomList

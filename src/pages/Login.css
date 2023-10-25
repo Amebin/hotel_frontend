@@ -1,8 +1,38 @@
-/*
-:valid e :invalid son pseudoclases que la especificación HTML aplica de forma automática
-a los campos de formulario, según pasen o no los requerimientos especificados (required,
-minlength, maxlength, etc).
+#loginContainer{
+    min-height: 75vh;
+    margin-top: 2vw;
+}
 
-Son una ayuda para agregar rápidamente indicadores visuales del estado de los campos
-*/
+#loginContainer form{
+    margin: 2vh 0  2vh 0;
+}
+
+#loginContainer .card{
+    border-radius: 1vh; 
+    background: var(--blue-50);
+    border: var(--blue-400) solid 1px;
+    color: var(--blue-950);
+}
+
+#loginContainer form button{
+    background: var(--blue-500);
+}
+
+
+#loginContainer form button:hover{
+    background: var(--blue-600);
+}
+
+@media screen and (max-width: 768px) {
+    #loginContainer{
+        min-height: 65vh;
+    }
+}
+
+@media screen and (max-width: 576px){
+    #loginContainer #colLogin{
+        max-width: 90%;
+        margin: 5vw;
+     }
+}
 
