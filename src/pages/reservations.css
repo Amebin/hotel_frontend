@@ -1,5 +1,6 @@
 #reservations{
     margin-bottom: 1vh;
+    min-height: 73vh;
 }
 #reservations .card{
     margin: 2vh 0 2vh 0;
