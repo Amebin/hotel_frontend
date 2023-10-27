@@ -17,6 +17,7 @@ const UserReservations = () => {
     const parsedToken = JSON.parse(authToken);
     const { decodedToken, isExpired } = useJwt(parsedToken?.token || '');
     const userRole = decodedToken ? decodedToken.role : null;
+    console.log(userRole)
     const navigate = useNavigate()
     const [roomDetails, setRoomDetails] = useState({});
 
@@ -118,11 +119,11 @@ const UserReservations = () => {
                     <Button variant="primary" onClick={() => navigate('/login')}>Iniciar sesión</Button>
                 </div>
             )}
-            {parsedToken && userRole === 'usuario' && reserved.length === 0 ?
-            (<Container className="text-center">
+            {parsedToken && userRole === 'user' && reserved.length === 0 ?
+            <Container className="text-center">
                     <h1>Aún no tienes reservas</h1>
                     <Button variant="primary" onClick={() => navigate('/rooms')}>Explora Habitaciones</Button>
-                </Container>)
+                </Container>
                 :
                 (reserved.map((reservation) => (
                     <Col key={reservation._id}  sm={{ span: 8, offset: 2 }} md={{ span: 6, offset: 0 }} lg={4} xxl={3}>
