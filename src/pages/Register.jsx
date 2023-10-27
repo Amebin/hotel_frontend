@@ -47,7 +47,7 @@ const Register = () => {
         const requiredFields = ['firstName', 'lastName', 'email', 'password', 'phone', 'address', 'city'];
         for (const field of requiredFields) {
             if (!frm[field]) {
-                setToastMsg({ show: true, msg: `El campo ${field} es obligatorio.` })
+                setToastMsg({ show: true, msg: `Todos los campos son obligatorios.` })
                 return;
             }
         }
@@ -55,6 +55,7 @@ const Register = () => {
         const emailRegex = /\S+@\S+\.\S+/
         if (!emailRegex.test(frm.email)) {
             setToastMsg({ show: true, msg: 'Por favor, ingresa un correo válido.' })
+           
             return
         }
 
@@ -148,6 +149,7 @@ const Register = () => {
                                 value={frm.email}
                                 onChange={handleChange}
                                 isInvalid={!frm.email || !/\S+@\S+\.\S+/.test(frm.email)}
+                                
                             />
                            
                         </Form.Group>
@@ -239,8 +241,6 @@ const Register = () => {
                         }}
                     >
                         <Toast.Header closeButton={false}>
-                            {/* Aquí puedes agregar un icono de advertencia si lo deseas */}
-                            {/* <img src="icono-de-advertencia.png" className="rounded me-2" alt="Icono de advertencia" /> */}
                             <strong className="me-auto">Atencion!</strong>
                         </Toast.Header>
                         <Toast.Body>{toastMsg.msg}</Toast.Body>
