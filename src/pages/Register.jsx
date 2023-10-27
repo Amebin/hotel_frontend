@@ -239,8 +239,6 @@ const Register = () => {
                         }}
                     >
                         <Toast.Header closeButton={false}>
-                            {/* Aquí puedes agregar un icono de advertencia si lo deseas */}
-                            {/* <img src="icono-de-advertencia.png" className="rounded me-2" alt="Icono de advertencia" /> */}
                             <strong className="me-auto">Atencion!</strong>
                         </Toast.Header>
                         <Toast.Body>{toastMsg.msg}</Toast.Body>
