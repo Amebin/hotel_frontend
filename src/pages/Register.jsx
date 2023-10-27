@@ -47,7 +47,7 @@ const Register = () => {
         const requiredFields = ['firstName', 'lastName', 'email', 'password', 'phone', 'address', 'city'];
         for (const field of requiredFields) {
             if (!frm[field]) {
-                setToastMsg({ show: true, msg: `El campo ${field} es obligatorio.` })
+                setToastMsg({ show: true, msg: `Todos los campos son obligatorios.` })
                 return;
             }
         }
@@ -55,6 +55,7 @@ const Register = () => {
         const emailRegex = /\S+@\S+\.\S+/
         if (!emailRegex.test(frm.email)) {
             setToastMsg({ show: true, msg: 'Por favor, ingresa un correo válido.' })
+           
             return
         }
 
@@ -148,6 +149,7 @@ const Register = () => {
                                 value={frm.email}
                                 onChange={handleChange}
                                 isInvalid={!frm.email || !/\S+@\S+\.\S+/.test(frm.email)}
+                                
                             />
                            
                         </Form.Group>
