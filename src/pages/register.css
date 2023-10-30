@@ -1,0 +1,20 @@
+#registerContainer button{
+    background: var(--blue-500);
+}
+
+#registerContainer button:hover{
+    background: var(--blue-600);
+}
+
+
+#registerContainer form input:invalid {
+    border: 1px solid red;
+  }
+  #registerContainer form input:valid {
+    border: 1px solid green;
+  }
+
+
+/* controlar validadores del form */
+
+
