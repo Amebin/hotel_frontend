@@ -1,0 +1,31 @@
+#reservedAdmin{
+    margin-bottom: 1vh;
+    min-height: 73vh;
+}
+
+#reservedAdmin .card{
+    margin: 2vh 0 2vh 0;
+    border-radius: 1vh; 
+    background: var(--blue-50);
+    border: var(--blue-400) solid 1px;
+    color: var(--blue-950);
+    min-height: 28vh;
+}
+
+@media screen and (min-width: 992px) {
+    #reservedAdmin .card{
+        height: 45vw;
+    }   
+}
+
+@media screen and (min-width: 1200px) {
+    #reservedAdmin .card{
+        height: 28vw;
+    }   
+}
+
+@media screen and (min-width: 1400px) {
+    #reservedAdmin .card{
+        height: 420px;
+    }   
+}

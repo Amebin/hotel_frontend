@@ -1,0 +1,13 @@
+#createContainer{
+    min-height: 73vh;
+    margin-top: 2vh;
+}
+
+#createContainer button{
+    background: var(--blue-500);
+}
+
+#createContainer button:hover{
+    background: var(--blue-600);
+}
+

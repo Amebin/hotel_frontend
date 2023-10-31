@@ -1,3 +1,7 @@
+#roomCards{
+    min-height: 75vh;
+}
+
 #roomCards .card {
     margin: 2vh 0 2vh 0;
     border-radius: 1vh;

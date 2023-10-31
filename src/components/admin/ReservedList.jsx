@@ -1,6 +1,5 @@
-// creamos un componente funcional para mostrar las reservas del usuario logueado
 import React, { useState, useEffect } from 'react';
-import { Button, Card, Container, Col, Modal, Form, Carousel, Toast } from 'react-bootstrap';
+import { Button, Card, Col, Container, Row } from 'react-bootstrap';
 import appConfig from '../../config';
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
@@ -8,6 +7,8 @@ import withReactContent from 'sweetalert2-react-content';
 import { useJwt } from 'react-jwt';
 import { useNavigate } from 'react-router-dom';
 import Error404 from '../../pages/Error404';
+
+import './adminReserved.css'
 
 const MySwal = withReactContent(Swal);
 
@@ -193,7 +194,8 @@ const AllReservations = () => {
 
 
     return (
-        <Container>
+        <Container id='reservedAdmin'>
+            <Row>
             {!parsedToken && (
                 <div className="text-center">
                     <h1>Debe iniciar sesión para ver sus reservas</h1>
@@ -210,7 +212,8 @@ const AllReservations = () => {
                 </Container>
                 :
                 reserved.map((reservation) => (
-                    <Card key={reservation._id} className="my-3 shadow">
+                    <Col key={reservation._id} sm={{ span: 8, offset: 2 }} md={{ span: 6, offset: 0 }} lg={4} xxl={3}>
+                    <Card  className="my-3 shadow">
                         <Card.Body>
                             <Card.Title className='d-flex justify-content-between align-items-center'>{getRoomDetails(reservation.roomId).title}
                                 <Button
@@ -241,8 +244,11 @@ const AllReservations = () => {
                             </Card.Text>
                         </Card.Body>
                     </Card>
+                    </Col>
+                   
                 ))
             }
+            </Row>
         </Container>
     )
 }

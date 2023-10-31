@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Button, Container, Row, Col, Toast, Form } from 'react-bootstrap';
 import appConfig from '../../config.js';
 import Swal from 'sweetalert2';
@@ -6,6 +6,8 @@ import withReactContent from 'sweetalert2-react-content';
 import globalState from '../../state.js'
 import Error404 from '../../pages/Error404.jsx'
 import { useJwt } from 'react-jwt';
+
+import './createRooms.css'
 
 const MySwal = withReactContent(Swal);
 
@@ -141,10 +143,11 @@ const CreateRoom = () => {
           {authToken && userRole !== 'admin' && <Error404 />}
           {authToken && isExpired && <Error404 />}
           { authToken && userRole === 'admin' && !isExpired && (
-            <Row>
+            <Row id='createContainer'>
+            
             <Form noValidate validated={validated} onSubmit={handleCreateRoom}>
                 <Row className="mb-3">
-                    <Form.Group as={Col} md="4" controlId="numberRoom">
+                    <Form.Group as={Col} md="6" lg={{ span: 5, offset: 1}} xl="4" controlId="numberRoom">
                         <Form.Label>Numero de la habitacion</Form.Label>
                         <Form.Control
                             required
@@ -161,7 +164,7 @@ const CreateRoom = () => {
                         </Form.Control.Feedback>
                     </Form.Group>
 
-                    <Form.Group as={Col} md="4" controlId="price">
+                    <Form.Group as={Col} md="6" lg={{ span: 5, offset: 1}} xl="4" controlId="price">
                         <Form.Label>Precio</Form.Label>
                         <Form.Control
                             required
@@ -182,7 +185,7 @@ const CreateRoom = () => {
 
                 <Row className="mb-3">
 
-                    <Form.Group as={Col} md="4" controlId="tipeRoom">
+                    <Form.Group as={Col} md="6" lg={{ span: 5, offset: 1}} xl="4" controlId="tipeRoom">
                         <Form.Label>Tipo</Form.Label>
                         <Form.Control
                             required
@@ -198,7 +201,7 @@ const CreateRoom = () => {
                         </Form.Control.Feedback>
                     </Form.Group>
 
-                    <Form.Group as={Col} md="4" controlId="image">
+                    <Form.Group as={Col} md="6" lg={{ span: 5, offset: 1}} xl="4" controlId="image">
                         <Form.Label>Imagen</Form.Label>
                         <Form.Control
                             required
@@ -216,7 +219,7 @@ const CreateRoom = () => {
                 </Row>
 
                 <Row className="mb-3">
-                <Form.Group as={Col} md="4" controlId="tittle">
+                <Form.Group as={Col} md="6" lg={{ span: 5, offset: 1}} xl="4" controlId="tittle">
                         <Form.Label>Titulo (opcional)</Form.Label>
                         <Form.Control
                             type="text"
@@ -227,7 +230,7 @@ const CreateRoom = () => {
                         />
                     </Form.Group>
 
-                    <Form.Group as={Col} md="4" controlId="description">
+                    <Form.Group as={Col} md="6" lg={{ span: 5, offset: 1}} xl="4" controlId="description">
                         <Form.Label>Descripcion (opcional)</Form.Label>
                         <Form.Control
                             type="text"
@@ -242,7 +245,7 @@ const CreateRoom = () => {
 
                 <Row className="mb-3">
                 
-                <Form.Group as={Col} md="4" controlId="size">
+                <Form.Group as={Col} md="6" lg={{ span: 5, offset: 1}} xl="4" controlId="size">
                         <Form.Label>Tamaño camas (opcional)</Form.Label>
                         <Form.Control
                             type="text"
@@ -253,7 +256,7 @@ const CreateRoom = () => {
                         />
                     </Form.Group>
 
-                    <Form.Group as={Col} md="4" controlId="capacity">
+                    <Form.Group as={Col} md="6" lg={{ span: 5, offset: 1}} xl="4" controlId="capacity">
                         <Form.Label>Capacidad (opcional)</Form.Label>
                         <Form.Control
                             type="number"
@@ -273,8 +276,9 @@ const CreateRoom = () => {
                             De manera automatica se generaran 20 fechas a partir del momento de la creacion de la nueva habitacion, luego podras modificar esto desde la seccion Admin de modificar habitaciones
                         </small>
                     </Form.Group>
-                <Button type="submit">Submit form</Button>
+                <Button type="submit">Crear Habitacion</Button>
             </Form>
+            
 
             <Toast
                         show={toastMsg.show}
