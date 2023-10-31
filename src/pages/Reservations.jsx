@@ -112,7 +112,7 @@ const UserReservations = () => {
 
     return (
         <Container id='reservations'>
-            <Row id='rowReservations'>
+            <Row>
             {!parsedToken && (
                 <div className="text-center">
                     <h1>Debe iniciar sesión para ver sus reservas</h1>
