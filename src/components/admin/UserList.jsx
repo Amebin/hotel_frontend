@@ -5,6 +5,9 @@ import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
 import Error404 from '../../pages/Error404.jsx'
 import { useJwt } from 'react-jwt';
+
+import './adminList.css'
+
 const MySwal = withReactContent(Swal);
 
 const UserList = () => {
@@ -168,15 +171,13 @@ const UserList = () => {
     }
   };
 
-  
-
   return (
     <Container>
       {!authToken && <Error404 />}
       {authToken && userRole !== 'admin' && <Error404 />}
       {authToken && isExpired && <Error404 />}
       {authToken && userRole === 'admin' && !isExpired &&(
-        <Col>
+        <Col id='adminContainer'>
           <Row>
             <Table striped bordered hover>
               <thead>
