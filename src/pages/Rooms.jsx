@@ -3,7 +3,6 @@ import { Button, Card, Container, Modal, Form, Carousel, Toast, Row, Col } from 
 import appConfig from '../config';
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
-import Error404 from './Error404';
 import { useJwt } from 'react-jwt';
 import { useNavigate } from 'react-router-dom';
 import '../pages/rooms.css'
