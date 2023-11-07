@@ -9,6 +9,7 @@ import { faCheckCircle, faExclamationTriangle } from '@fortawesome/free-solid-sv
 import './Login.css'
 
 const Login = () => {
+  localStorage.removeItem('authToken');
   const navigate = useNavigate()
   const [frm, setFrm] = useState({ email: '', password: '' })
   const [toastMsg, setToastMsg] = useState({ show: false, msg: '' })
@@ -68,7 +69,7 @@ const Login = () => {
         setToastMsg({ show: true, msg: responseData.data , success: false })
       }
     } catch (err) {
-      setToastMsg({ show: true, msg: 'Algo salio muy mal. Por favor, inténtalo de nuevo.', success: false })
+      setToastMsg({ show: true, msg: 'Algo salio muy mal. Por favor, inténtalo de nuevo mas tarde.', success: false })
       setLoading(false)
     }
   }
