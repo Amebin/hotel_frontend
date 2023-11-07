@@ -1,3 +1,4 @@
+import './adminList.css'
 import React, { useEffect, useState } from 'react'
 import { Button, Table, Container, Row, Col, Modal, Form } from 'react-bootstrap'
 import appConfig from '../../config.js'
@@ -5,20 +6,28 @@ import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
 import Error404 from '../../pages/Error404.jsx'
 import { useJwt } from 'react-jwt'
-import './adminList.css'
+import { useNavigate } from 'react-router-dom';
+
 
 const MySwal = withReactContent(Swal)
 
 const RoomList = () => {
     const [roomList, setRoomList] = useState([])
     const [roomModals, setRoomModals] = useState({})
+    
     const authToken = localStorage.getItem('authToken')
     const parsedAuth = JSON.parse(authToken)
     const { decodedToken, isExpired } = useJwt(parsedAuth?.token || '')
     const userRole = decodedToken ? decodedToken.role : null
     const [forceUpdate, setForceUpdate] = useState(false)
+    const [loading, setLoading] = useState(false);
 
+    const [modifiedDates, setModifiedDates] = useState([]);
+    const navigate = useNavigate()
+   
     useEffect(() => {
+        setLoading(true);
+        
         const fetchData = async () => {
             try {
                 const response = await fetch(`${appConfig.API_BASE_URL}${appConfig.GET_ROOM_ENDPOINT}`, {
@@ -29,22 +38,26 @@ const RoomList = () => {
                 if (response.ok) {
                     const dataJson = await response.json()
                     setRoomList(dataJson.data)
+                    setLoading(false);
                 } else {
                     throw new Error('Error al obtener la lista de habitaciones')
                 }
             } catch (err) {
-                setToastMsg({ show: true, msg: err.message })
+                alert('Algo salio muy mal, intenta de nuevo mas tarde')
             }
+            
         }
 
         fetchData()
     }, [forceUpdate])
 
-    const handleShow = (roomId) => {
+    const handleShow = (roomId, avaliableDates) => {
         setRoomModals((prevRoomModals) => ({
             ...prevRoomModals,
             [roomId]: true,
-        }))
+        }))      
+        setModifiedDates(avaliableDates)
+        
     }
 
     const handleClose = (roomId) => {
@@ -52,22 +65,15 @@ const RoomList = () => {
             ...prevRoomModals,
             [roomId]: false,
         }))
+        setModifiedDates()
     }
 
-    const handleDateChange = (e, index, roomId) => {
-        const { value } = e.target
-
-        setRoomDates((prevRoomDates) => {
-            const updatedDates = [...prevRoomDates[roomId]]
-            updatedDates[index] = value
-            return {
-                ...prevRoomDates,
-                [roomId]: updatedDates,
-            }
-        })
-    }
-
-
+    const handleDateChange = (e, index) => {
+        const newDates = [...modifiedDates];
+        newDates[index] = e.target.value;
+        setModifiedDates(newDates);
+    };
+   
     const handleSubmit = async (e, roomId) => {
         e.preventDefault()
         const form = e.currentTarget
@@ -76,14 +82,16 @@ const RoomList = () => {
         const price = form.price.value
         const tipeRoom = form.tipeRoom.value
         const images = form.images.value
+        const avaliableDates = modifiedDates
+
 
         const data = {
             numberRoom,
             price,
             tipeRoom,
             images,
+            avaliableDates,
         }
-        
 
         try {
             const putRoom = await fetch(`${appConfig.API_BASE_URL}${appConfig.PUT_ROOM_ENDPOINT}/${roomId}`, {
@@ -164,14 +172,25 @@ const RoomList = () => {
             })
         }
     }
-
+    
     return (
         <Container>
             {!authToken && <Error404 />}
             {authToken && userRole !== 'admin' && <Error404 />}
-            {authToken && isExpired && <Error404 />}
+            {authToken && userRole === 'admin'  && isExpired && (
+                <div className="text-center">
+                    <h1>Debe iniciar sesion nuevamente</h1>
+                    <Button onClick={() => navigate('/login')}>Iniciar sesión</Button>
+                </div>
+            )}
+            {loading && (
+            <div className="spinner">
+                Cargando habitaciones...
+            </div>
+        )}
             {authToken && userRole === 'admin' && !isExpired && (
                 <Row>
+                
                     <Col id='adminContainer'>
                         <Table striped bordered hover>
                             <thead>
@@ -190,7 +209,7 @@ const RoomList = () => {
                                             <td>{room.price}</td>
                                             <td>{room.tipeRoom}</td>
                                             <td>
-                                                <Button variant="primary" onClick={() => handleShow(room._id)}>
+                                                <Button onClick={() => handleShow(room._id, room.avaliableDates)}>
                                                     Gestionar
                                                 </Button>
                                             </td>
@@ -226,11 +245,11 @@ const RoomList = () => {
                                                     <Form.Group controlId="dates">
                                                         <Form.Label>Fechas</Form.Label>
                                                         {room.avaliableDates.map((date, index) => (
-                                                            <div key={index} className="d-flex mb-2">
+                                                            <div id='index' key={index} className="d-flex mb-2">
                                                                 <Form.Control
-                                                                    type="date"
-                                                                    value={date}
-                                                                    onChange={(e) => handleDateChange(e, index, room)}
+                                                                    type="text"
+                                                                    defaultValue={date}
+                                                                    onChange={(e) => handleDateChange(e, index)}
                                                                 />
                                                                 <Button
                                                                     variant="danger"

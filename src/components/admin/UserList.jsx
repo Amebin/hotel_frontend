@@ -5,6 +5,9 @@ import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
 import Error404 from '../../pages/Error404.jsx'
 import { useJwt } from 'react-jwt';
+import { useNavigate } from 'react-router-dom';
+
+
 
 import './adminList.css'
 
@@ -22,9 +25,11 @@ const UserList = () => {
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(10);
   const [totalPages, setTotalPages] = useState();
-
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate()
 
   useEffect(() => {
+    setLoading(true);
     const fetchData = async () => {
       try {
         const response = await fetch(`${appConfig.API_BASE_URL}${appConfig.GET_USERS_ENDPOINT}?page=${page}&limit=${limit}`, {
@@ -37,11 +42,20 @@ const UserList = () => {
           const dataJson = await response.json();
           setUserList(dataJson.data);
           setTotalPages(dataJson.totalPages);
+          setLoading(false);
         } else {
           throw new Error('Error al obtener la lista de usuarios');
         }
       } catch (err) {
-        console.log({ msg: err.message });
+        MySwal.fire({
+          title: 'Error!',
+          text: 'Debe volver a iniciar sesión para ver el contenido solicitado',
+          icon: 'error',
+          confirmButtonText: 'Ok'
+      }).then(() => {
+          localStorage.removeItem('authToken');
+          navigate('/login');
+      })
       }
     };
 
@@ -176,7 +190,12 @@ const UserList = () => {
       {!authToken && <Error404 />}
       {authToken && userRole !== 'admin' && <Error404 />}
       {authToken && isExpired && <Error404 />}
-      {authToken && userRole === 'admin' && !isExpired &&(
+      {loading && (
+        <div className="spinner">
+          Cargando usuarios...
+        </div>
+      )}
+      {authToken && userRole === 'admin' && !isExpired && (
         <Col id='adminContainer'>
           <Row>
             <Table striped bordered hover>
@@ -252,15 +271,15 @@ const UserList = () => {
 
           <Row>
             <Pagination className="justify-content-center">
-            <Button onClick={handlePrevPage} disabled={page === 1}>
-              Anterior
-            </Button>
-            <p className="mx-2">
-              Página {page} de {totalPages}
-            </p>
-            <Button onClick={handleNextPage} disabled={page === totalPages}>
-              Siguiente
-            </Button>
+              <Button onClick={handlePrevPage} disabled={page === 1}>
+                Anterior
+              </Button>
+              <p className="mx-2">
+                Página {page} de {totalPages}
+              </p>
+              <Button onClick={handleNextPage} disabled={page === totalPages}>
+                Siguiente
+              </Button>
             </Pagination>
           </Row>
         </Col>

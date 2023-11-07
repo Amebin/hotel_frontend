@@ -14,7 +14,6 @@ const MySwal = withReactContent(Swal);
 
 const AllReservations = () => {
     const [reserved, setReserved] = useState([]);
-    const [toastMsg, setToastMsg] = useState({ show: false, msg: '' })
     const authToken = localStorage.getItem('authToken');
     const parsedToken = JSON.parse(authToken);
     const { decodedToken, isExpired } = useJwt(parsedToken?.token || '');
@@ -22,9 +21,12 @@ const AllReservations = () => {
     const navigate = useNavigate()
     const [roomDetails, setRoomDetails] = useState({});
     const [users, setUsers] = useState([]);
+    const [loading, setLoading] = useState(false);
 
 
     useEffect(() => {
+        setLoading(true);
+
         const fetchReserved = async () => {
             try {
                 const response = await fetch(`${appConfig.API_BASE_URL}${appConfig.RESERVED_ADMIN}`, {
@@ -33,10 +35,8 @@ const AllReservations = () => {
                         'Authorization': `Bearer ${parsedToken.token}`
                     }
                 });
-
-
-
                 const reservationJson = await response.json();
+                
                 if (response.ok) {
                     const sortedReserved = reservationJson.data.sort((a, b) => {
                         const statusA = getReservationStatus(a.date);
@@ -51,11 +51,11 @@ const AllReservations = () => {
                         }
                     });
 
-
+                    
+                    setLoading(false);
                     setReserved(sortedReserved);
                     fetchAllRoomDetails()
                     fetchAllUsers()
-
                 } if (response.status === 401) {
                     MySwal.fire({
                         title: 'Error!',
@@ -72,7 +72,7 @@ const AllReservations = () => {
 
             }
             catch (error) {
-                setToastMsg({ show: true, msg: error.message });
+                throw new Error('Algo no esta funcionando como deberia, intentalo mas tarde o luego de realizar una reservacion');               
             }
         }
         fetchReserved();
@@ -93,7 +93,7 @@ const AllReservations = () => {
                 throw new Error(roomsJson.message);
             }
         } catch (error) {
-            setToastMsg({ show: true, msg: error.message });
+            alert('Algo salio mal al traer los detalles de las habitaciones, intenta nuevamente mas tarde');
         }
     }
 
@@ -115,7 +115,7 @@ const AllReservations = () => {
                 throw new Error(usersJson.message);
             }
         } catch (error) {
-            setToastMsg({ show: true, msg: error.message });
+            alert('Algo salio mal trayendo los datos de usuarios');
         }
     }
 
@@ -205,7 +205,12 @@ const AllReservations = () => {
             {parsedToken && userRole === 'user' && (
                 <Error404 />
             )}
-            {parsedToken && userRole === 'admin' && reserved.length === 0 ?
+            {loading && (
+                    <div className="spinner">
+                        Cargando reservas...
+                    </div>
+                )}
+            {parsedToken && userRole === 'admin' && loading === false && reserved.length === 0 ?
                 <Container className="text-center">
                     <h1>Aún no tienes reservas</h1>
                     <Button variant="primary" onClick={() => navigate('/rooms')}>Explora Habitaciones</Button>
