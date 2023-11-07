@@ -17,12 +17,12 @@ const UserReservations = () => {
     const parsedToken = JSON.parse(authToken);
     const { decodedToken, isExpired } = useJwt(parsedToken?.token || '');
     const userRole = decodedToken ? decodedToken.role : null;
-    console.log(userRole)
     const navigate = useNavigate()
     const [roomDetails, setRoomDetails] = useState({});
-
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
+        setLoading(true);
         const fetchReserved = async () => {
             try {
                 const response = await fetch(`${appConfig.API_BASE_URL}${appConfig.RESERVED_ROOM}`, {
@@ -50,6 +50,7 @@ const UserReservations = () => {
 
                 setReserved(sortedReserved);
                     fetchAllRoomDetails()
+                    setLoading(false);
                 } if (response.status === 401) {
                     MySwal.fire({
                         title: 'Error!',
@@ -63,14 +64,14 @@ const UserReservations = () => {
                 } else {
                     throw new Error(reservationJson.message);
                 }
-
+                
             }
             catch (error) {
                 setToastMsg({ show: true, msg: error.message });
             }
         }
         fetchReserved();
-
+        
     }, []);
 
     const fetchAllRoomDetails = async () => {
@@ -119,7 +120,12 @@ const UserReservations = () => {
                     <Button variant="primary" onClick={() => navigate('/login')}>Iniciar sesión</Button>
                 </div>
             )}
-            {parsedToken && userRole === 'user' && reserved.length === 0 ?
+            {loading && (
+                    <div className="spinner">
+                        Cargando reservaciones...
+                    </div>
+                )}
+            {parsedToken && userRole === 'user' && loading === false && reserved.length === 0 ?
             <Container className="text-center">
                     <h1>Aún no tienes reservas</h1>
                     <Button variant="primary" onClick={() => navigate('/rooms')}>Explora Habitaciones</Button>

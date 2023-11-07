@@ -61,7 +61,7 @@ const CreateRoom = () => {
             return
         }
 
-        console.log(formNewRoom.image.length)
+        
         if(formNewRoom.image.length <= 20){
             setToastMsg({ show: true, msg: 'Por favor, ingresa una URL valida.' })
             return
@@ -130,7 +130,8 @@ const CreateRoom = () => {
                 setToastMsg({ show: true, msg: resultResponse.data || 'Hubo un error al registrar la habitacion. Por favor, inténtalo de nuevo.' })
               }
             } catch (error) {
-              setToastMsg({ show: true, msg: resultResponse.data || 'Algo salio muy mal, intentalo mas tarde por favor' })
+              setToastMsg({ show: true, msg: 'Algo salio muy mal, intentalo mas tarde por favor' })
+              setLoading(false)
             }
             
 

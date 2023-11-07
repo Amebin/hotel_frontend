@@ -21,9 +21,11 @@ const Rooms = () => {
     const userID = decodedToken ? decodedToken.uid : null;
     const navigate = useNavigate()
     const [forceUpdate, setForceUpdate] = useState(false);
+    const [loading, setLoading] = useState(false);
 
 
     useEffect(() => {
+        setLoading(true);
         const fetchRooms = async () => {
             try {
                 const response = await fetch(`${appConfig.API_BASE_URL}${appConfig.GET_ROOM_ENDPOINT}`);
@@ -32,14 +34,14 @@ const Rooms = () => {
                 if (response.ok) {
                     setRooms(dataJson.data);
                 }
-
+                setLoading(false);
             }
             catch (error) {
-                setToastMsg({ show: true, msg: error.message });
+                alert('Hubo un problema, intenta de nuevo mas tarde');
             }
         }
         fetchRooms();
-        
+
     }, [forceUpdate]);
 
     const handleShow = (roomId) => {
@@ -84,7 +86,7 @@ const Rooms = () => {
                 },
                 body: JSON.stringify(data),
             });
-            
+
             const resultReserved = await response.json();
             const reservedData = resultReserved.data;
             if (response.ok) {
@@ -113,7 +115,7 @@ const Rooms = () => {
                 cancelButtonText: 'Cancelar',
                 confirmButtonText: 'Ok',
             }).then((result) => {
-                handleClose(roomId);  
+                handleClose(roomId);
                 if (result.isConfirmed) {
                     handleClose(roomId)
                 }
@@ -121,78 +123,83 @@ const Rooms = () => {
                 navigate('/login')
             });
 
-            
+
         }
     };
 
     return (
         <Container id='roomCards'>
             <Row>
-            {rooms.map((room) => (
-               <Col key={room._id} sm={{ span: 8, offset: 2 }} md={{ span: 6, offset: 0 }} lg={4} xxl={3}> 
-               <Card >
-                    <Card.Img variant="top" src={room.images} />
-                    <Card.Body>
-                        <Card.Title>Card Title</Card.Title>
-                        <Card.Title>{room.title}</Card.Title>
-                        <Card.Text>{room.description}</Card.Text>
-                        <Button className='buttonConfirmation' variant="primary" onClick={() => handleShow(room._id)}>Solicitar reserva</Button>
-                    </Card.Body>
+                {loading && (
+                    <div className="spinner">
+                        Cargando habitaciones...
+                    </div>
+                )}
+                {rooms.map((room) => (
+                    <Col key={room._id} sm={{ span: 8, offset: 2 }} md={{ span: 6, offset: 0 }} lg={4} xxl={3}>
+                        <Card >
+                            <Card.Img variant="top" src={room.images} />
+                            <Card.Body>
+                                <Card.Title>Card Title</Card.Title>
+                                <Card.Title>{room.title}</Card.Title>
+                                <Card.Text>{room.description}</Card.Text>
+                                <Button className='buttonConfirmation' variant="primary" onClick={() => handleShow(room._id)}>Solicitar reserva</Button>
+                            </Card.Body>
 
-                    <Modal show={roomModal[room._id]} onHide={() => handleClose(room._id)} backdrop="static" keyboard={false}>
-                        <Modal.Header closeButton>
-                            <Modal.Title>Confirmar Reservacion</Modal.Title>
-                        </Modal.Header>
-                        <Modal.Body>
-                            {room.images.map((image, index) => (
-                                <Carousel key={index}>
-                                    <Carousel.Item>
-                                        <img
-                                            className="d-block w-100"
-                                            src={image}
-                                            alt={room.title + index}
-                                        />
-                                    </Carousel.Item>
-                                </Carousel>
-                            ))}
-
-                            <h3>Habitacion {room.title}</h3>
-                            <p>{room.description}</p>
-                            <p>Capacidad: {room.capacity} personas</p>
-                            <p>Tipo: {room.tipeRoom}</p>
-                            <p>Camas: {room.size}</p>
-                            <p>Precio: ${room.price} por noche</p>
-
-
-                            <Form onSubmit={(e) => handleSubmit(e, room._id)}>
-                                <Form.Control type="hidden" name="id" value={room._id} />
-                                <Form.Select aria-label="Default select" id='reservationDate' onChange={handleDateChange}>
-                                    <option>Selecciona la fecha de la reserva</option>
-                                    {room.avaliableDates.map((date, index) => (
-                                        <option key={index} value={date}>
-                                            {date}
-                                        </option>
+                            <Modal show={roomModal[room._id]} onHide={() => handleClose(room._id)} backdrop="static" keyboard={false}>
+                                <Modal.Header closeButton>
+                                    <Modal.Title>Confirmar Reservacion</Modal.Title>
+                                </Modal.Header>
+                                <Modal.Body>
+                                    {room.images.map((image, index) => (
+                                        <Carousel key={index}>
+                                            <Carousel.Item>
+                                                <img
+                                                    className="d-block w-100"
+                                                    src={image}
+                                                    alt={room.title + index}
+                                                />
+                                            </Carousel.Item>
+                                        </Carousel>
                                     ))}
-                                </Form.Select>
 
-                                <Row id='modalButtons'>
-                            
-                                <Button className='buttonConfirmation' type="submit">
-                                    Reservar
-                                </Button>
-                                                            
-                                <Button  variant="secondary" onClick={() => handleClose(room._id)}>
-                                    Cerrar
-                                </Button>
-                                
-                                </Row>
-                            </Form>
-                        </Modal.Body>
-                    </Modal>
+                                    <h3>Habitacion {room.title}</h3>
+                                    <p>{room.description}</p>
+                                    <p>Capacidad: {room.capacity} personas</p>
+                                    <p>Tipo: {room.tipeRoom}</p>
+                                    <p>Camas: {room.size}</p>
+                                    <p>Precio: ${room.price} por noche</p>
 
-                </Card>
-               </Col>
-            ))}
+
+                                    <Form onSubmit={(e) => handleSubmit(e, room._id)}>
+                                        <Form.Control type="hidden" name="id" value={room._id} />
+                                        <Form.Select aria-label="Default select" id='reservationDate' onChange={handleDateChange}>
+                                            <option>Selecciona la fecha de la reserva</option>
+                                            {room.avaliableDates.map((date, index) => (
+                                                <option key={index} value={date}>
+                                                    {date}
+                                                </option>
+                                            ))}
+                                        </Form.Select>
+
+                                        <Row id='modalButtons'>
+
+                                            <Button className='buttonConfirmation' type="submit">
+                                                Reservar
+                                            </Button>
+
+                                            <Button variant="secondary" onClick={() => handleClose(room._id)}>
+                                                Cerrar
+                                            </Button>
+
+                                        </Row>
+                                    </Form>
+                                </Modal.Body>
+                            </Modal>
+
+                        </Card>
+                    </Col>
+                ))}
             </Row>
         </Container>
     )
