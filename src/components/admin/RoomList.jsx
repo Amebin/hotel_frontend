@@ -1,12 +1,14 @@
 import './adminList.css'
 import React, { useEffect, useState } from 'react'
-import { Button, Table, Container, Row, Col, Modal, Form } from 'react-bootstrap'
+import { Button, Table, Container, Row, Col, Modal, Form, Toast } from 'react-bootstrap'
 import appConfig from '../../config.js'
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
 import Error404 from '../../pages/Error404.jsx'
 import { useJwt } from 'react-jwt'
 import { useNavigate } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faCheckCircle, faExclamationTriangle } from '@fortawesome/free-solid-svg-icons'
 
 
 const MySwal = withReactContent(Swal)
@@ -14,7 +16,7 @@ const MySwal = withReactContent(Swal)
 const RoomList = () => {
     const [roomList, setRoomList] = useState([])
     const [roomModals, setRoomModals] = useState({})
-    
+    const [toastMsg, setToastMsg] = useState({ show: false, msg: '' })
     const authToken = localStorage.getItem('authToken')
     const parsedAuth = JSON.parse(authToken)
     const { decodedToken, isExpired } = useJwt(parsedAuth?.token || '')
@@ -24,10 +26,10 @@ const RoomList = () => {
 
     const [modifiedDates, setModifiedDates] = useState([]);
     const navigate = useNavigate()
-   
+
     useEffect(() => {
         setLoading(true);
-        
+
         const fetchData = async () => {
             try {
                 const response = await fetch(`${appConfig.API_BASE_URL}${appConfig.GET_ROOM_ENDPOINT}`, {
@@ -45,7 +47,7 @@ const RoomList = () => {
             } catch (err) {
                 alert('Algo salio muy mal, intenta de nuevo mas tarde')
             }
-            
+
         }
 
         fetchData()
@@ -55,9 +57,9 @@ const RoomList = () => {
         setRoomModals((prevRoomModals) => ({
             ...prevRoomModals,
             [roomId]: true,
-        }))      
+        }))
         setModifiedDates(avaliableDates)
-        
+
     }
 
     const handleClose = (roomId) => {
@@ -73,7 +75,15 @@ const RoomList = () => {
         newDates[index] = e.target.value;
         setModifiedDates(newDates);
     };
-   
+
+    const deleteDates = (index) => {
+        const newDates = [...modifiedDates];
+        newDates.splice(index, 1);
+        setModifiedDates(newDates);
+        setToastMsg({ show: true, msg: 'La fecha fue eliminada, dale clic a modificar para confirmar los cambios', success: false })
+
+    };
+
     const handleSubmit = async (e, roomId) => {
         e.preventDefault()
         const form = e.currentTarget
@@ -172,25 +182,25 @@ const RoomList = () => {
             })
         }
     }
-    
+
     return (
         <Container>
             {!authToken && <Error404 />}
             {authToken && userRole !== 'admin' && <Error404 />}
-            {authToken && userRole === 'admin'  && isExpired && (
+            {authToken && userRole === 'admin' && isExpired && (
                 <div className="text-center">
                     <h1>Debe iniciar sesion nuevamente</h1>
                     <Button onClick={() => navigate('/login')}>Iniciar sesión</Button>
                 </div>
             )}
             {loading && (
-            <div className="spinner">
-                Cargando habitaciones...
-            </div>
-        )}
+                <div className="spinner">
+                    Cargando habitaciones...
+                </div>
+            )}
             {authToken && userRole === 'admin' && !isExpired && (
                 <Row>
-                
+
                     <Col id='adminContainer'>
                         <Table striped bordered hover>
                             <thead>
@@ -245,16 +255,18 @@ const RoomList = () => {
                                                     <Form.Group controlId="dates">
                                                         <Form.Label>Fechas</Form.Label>
                                                         {room.avaliableDates.map((date, index) => (
-                                                            <div id='index' key={index} className="d-flex mb-2">
+                                                            <div id={index} key={index} className="d-flex mb-2">
                                                                 <Form.Control
                                                                     type="text"
                                                                     defaultValue={date}
                                                                     onChange={(e) => handleDateChange(e, index)}
+
                                                                 />
+
                                                                 <Button
                                                                     variant="danger"
                                                                     className="ms-2"
-
+                                                                    onClick={() => deleteDates(index)}
                                                                 >
                                                                     Eliminar
                                                                 </Button>
@@ -262,7 +274,7 @@ const RoomList = () => {
                                                         ))}
                                                     </Form.Group>
 
-                                                    <Button variant="primary" type="submit">
+                                                    <Button type="submit">
                                                         Modificar
                                                     </Button>
                                                     <Button variant="danger" onClick={() => handleDeleteClick(room._id)}>
@@ -273,10 +285,34 @@ const RoomList = () => {
                                                     </Button>
                                                 </Form>
                                             </Modal.Body>
+                                            <Toast
+                                                show={toastMsg.show}
+                                                delay={5500}
+                                                onClose={() => setToastMsg({ show: false, msg: '' })}
+                                                autohide
+                                                style={{
+                                                    position: 'fixed',
+                                                    bottom: '1em',
+                                                    right: '0',
+                                                    zIndex: '1000',
+                                                    backgroundColor: '#dc3545',
+                                                    color: '#fff',
+                                                }}
+                                            >
+                                                <Toast.Header>
+                                                    <FontAwesomeIcon icon={faCheckCircle} size="2x" className='me-1' />
+                                                    <strong className="me-auto">Fecha eliminada</strong>
+                                                    <small>Ahora</small>
+                                                </Toast.Header>
+
+
+                                                <Toast.Body>{toastMsg.msg}</Toast.Body>
+                                            </Toast>
                                         </Modal>
                                     </React.Fragment>))}
                             </tbody>
                         </Table>
+
 
                     </Col>
                 </Row>
