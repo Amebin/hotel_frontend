@@ -8,6 +8,9 @@
     background: var(--blue-100);
     border: var(--blue-400) solid 1px;
     color: var(--blue-950);
+    min-height: 47vh;
+    object-fit: cover;
+    overflow: hidden;
 }
 
 #roomCards .buttonConfirmation,
@@ -43,3 +46,45 @@
     
 }
 
+@media screen and (min-width: 576px) {
+    #roomCards .card {
+        min-height: 36vh;
+    }
+}
+
+@media screen and (min-width: 768px) {
+    #roomCards .card {
+        min-height: 31vh;
+    }
+}
+
+@media screen and (min-width: 992px) {
+    #roomCards .card {
+        min-height: 34vw;
+    }
+
+    #roomCards .card img{
+        height: 17vw;
+        min-width: 100%;
+    }
+}
+
+@media screen and (min-width: 1200px) {
+    #roomCards .card {
+        min-height: 32vw;
+    }
+
+    #roomCards .card img{
+        height: 16vw;
+    }
+}
+
+@media screen and (min-width: 1400px) {
+    #roomCards .card {
+        min-height: 350px;
+    }
+
+    #roomCards .card img{
+        height: 175px;
+    }
+}
