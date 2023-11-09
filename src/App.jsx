@@ -14,7 +14,9 @@ import RoomList from './components/admin/RoomList.jsx'
 import CreateRoom from './components/admin/CreateRoom.jsx'
 import UserReservations from './pages/Reservations.jsx'
 import AllReservations from './components/admin/ReservedList.jsx'
-
+import Gallery from './pages/gallery.jsx'
+import AboutUs from './pages/AboutUs.jsx'
+import ContactUs from './pages/ContactUs.jsx'
 
 function App() {
   const loading = globalState((state) => state.loading)
@@ -36,6 +38,9 @@ function App() {
         <Route path="/createroom" element={<CreateRoom />} />
         <Route path="/userreservations" element={<UserReservations />} />
         <Route path="/allreservations" element={<AllReservations />} />
+        <Route path="/galleryimg" element={<Gallery />} />
+        <Route path="/aboutUs" element={<AboutUs />} />
+        <Route path="/contactUs" element={<ContactUs />} />
 
         <Route path="*" element={<Error404 />} />
       </Routes>
