@@ -1,0 +1,23 @@
+#contactUs{
+    min-height: 57vh;
+    margin-top: 2vh;
+}
+
+#contactUs table{
+    --bs-table-bg: var(--blue-100);
+    border: var(--blue-400) solid 1px;
+    --bs-table-bg-type: var(--blue-50);
+    --bs-table-hover-bg: var(--blue-200);
+}
+
+#contacUs table td, #contacUs table tr {
+    max-width: 18vh;
+    overflow: hidden;
+}
+
+@media screen and (min-width: 1200px) {
+    #contactUs{
+        min-height: 70vh;
+
+    }
+}
