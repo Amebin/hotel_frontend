@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Card, Container, Modal, Form, Carousel, Toast, Row, Col } from 'react-bootstrap';
+import { Button, Card, Container, Modal, Form, Carousel, Row, Col } from 'react-bootstrap';
 import appConfig from '../config';
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
 import { useJwt } from 'react-jwt';
 import { useNavigate } from 'react-router-dom';
-import '../pages/rooms.css'
+import './rooms.css'
 
 const MySwal = withReactContent(Swal);
 
@@ -13,11 +13,10 @@ const Rooms = () => {
     const [rooms, setRooms] = useState([]);
     const [roomModal, setRoomModal] = useState({});
     const [reservationDate, setReservationDate] = useState('');
-    const [toastMsg, setToastMsg] = useState({ show: false, msg: '' })
+    
     const authToken = localStorage.getItem('authToken');
     const parsedToken = JSON.parse(authToken);
-    const { decodedToken, isExpired } = useJwt(parsedToken?.token || '');
-    const userRole = decodedToken ? decodedToken.role : null;
+    const { decodedToken } = useJwt(parsedToken?.token || '');
     const userID = decodedToken ? decodedToken.uid : null;
     const navigate = useNavigate()
     const [forceUpdate, setForceUpdate] = useState(false);
@@ -103,8 +102,12 @@ const Rooms = () => {
                 MySwal.fire({
                     icon: 'error',
                     title: 'Error',
-                    text: `${reservedData}. Por favor incia sesion nuevamente`,
-                });
+                    text: `Su sesion a expirado. Por favor incia sesion nuevamente`,
+                    confirmButtonText: 'Ok'
+                }).then(() => {
+                    localStorage.removeItem('authToken');
+                    navigate('/login');
+                })
             }
         } catch (error) {
             MySwal.fire({
@@ -138,12 +141,11 @@ const Rooms = () => {
                 {rooms.map((room) => (
                     <Col key={room._id} sm={{ span: 8, offset: 2 }} md={{ span: 6, offset: 0 }} lg={4} xxl={3}>
                         <Card >
-                            <Card.Img variant="top" src={room.images} />
+                            <Card.Img variant="top" src={room.images} className='roomsImg'/>
                             <Card.Body>
-                                <Card.Title>Card Title</Card.Title>
                                 <Card.Title>{room.title}</Card.Title>
                                 <Card.Text>{room.description}</Card.Text>
-                                <Button className='buttonConfirmation' variant="primary" onClick={() => handleShow(room._id)}>Solicitar reserva</Button>
+                                <Button className='buttonConfirmation' onClick={() => handleShow(room._id)}>Solicitar reserva</Button>
                             </Card.Body>
 
                             <Modal show={roomModal[room._id]} onHide={() => handleClose(room._id)} backdrop="static" keyboard={false}>
@@ -155,7 +157,7 @@ const Rooms = () => {
                                         <Carousel key={index}>
                                             <Carousel.Item>
                                                 <img
-                                                    className="d-block w-100"
+                                                    
                                                     src={image}
                                                     alt={room.title + index}
                                                 />
