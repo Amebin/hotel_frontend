@@ -29,6 +29,7 @@
 
 .modal img{
     margin-bottom: 1vh;
+    max-height: 50vh;
 }
 
 .modal #reservationDate{

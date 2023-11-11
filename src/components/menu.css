@@ -9,6 +9,16 @@ nav {
     text-align: center;
 }
 
+#logoContenedor{
+    margin: 0;
+    padding: 0;
+}
+
+#menuContainer .imgLogo{
+    max-width: 45px;
+    max-height: 45px;
+}
+
 #menuContainer a.active {
     background-color: var(--blue-700);
     border-radius: 0.3em;

@@ -94,7 +94,6 @@ const RoomList = () => {
         const images = form.images.value
         const avaliableDates = modifiedDates
 
-
         const data = {
             numberRoom,
             price,
@@ -102,7 +101,7 @@ const RoomList = () => {
             images,
             avaliableDates,
         }
-
+       
         try {
             const putRoom = await fetch(`${appConfig.API_BASE_URL}${appConfig.PUT_ROOM_ENDPOINT}/${roomId}`, {
                 method: 'PUT',
@@ -246,9 +245,9 @@ const RoomList = () => {
                                                     <Form.Group controlId="images">
                                                         <Form.Label>Imagenes</Form.Label>
                                                         <Form.Control as="textarea" rows={3} name="images" defaultValue={room.images.join(', ')} />
-                                                        <small className="text-muted">Ingresa una URL por cada imagen que requieras. Si hay 2 o mas URL deben estar separadas una de la otra por 1 coma y 1 espacio.
-                                                            <br></br> Ejemplo: https://www.example.com/image1.jpg, https://www.example.com/image2.jpg, https://www.example.com/image3.jpg
-                                                            <br></br> No ingreses saltos de linea, solo coma y espacio.
+                                                        <small className="text-muted">Ingresa la URL de la imagen.
+                                                            <br></br> Ejemplo: https://www.example.com/image1.jpg.
+                                                            <br></br> No ingreses saltos de linea,ni comas o espacios.
                                                         </small>
                                                     </Form.Group>
 

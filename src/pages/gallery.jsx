@@ -58,7 +58,7 @@ const gallery = () => {
                 {img.map((image, index) => (
                     <Col key={index} sm={6} md={4} lg={3} className='mb-3 containerImg'>
                         <Row>
-                            <Image className='images' src={image} alt={`Image ${index + 1}`}/>
+                            <Image className='images' srcSet={image} alt={`Image ${index + 1}`} rounded/>
                         </Row>
                     </Col>
                 ))}
