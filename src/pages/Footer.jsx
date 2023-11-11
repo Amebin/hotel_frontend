@@ -1,5 +1,9 @@
 import { Container, Row, Col } from 'react-bootstrap'
 import { Link, } from 'react-router-dom'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faLinkedin, faGithub } from '@fortawesome/free-brands-svg-icons';
+
+
 import './footer.css'
 const Footer = () => {
   return (
@@ -24,7 +28,16 @@ const Footer = () => {
         </Col>
       </Row>
       <Row id='rowFooter'>
-        <p className='footer-copyright '>© 2020 Copyright: Hotel Viajero</p>
+        <p className='footer-copyright '>© 2023 Copyright: Hotel Viajero</p>
+        <div className='footer-social-icons'>
+        
+        <a href="https://www.linkedin.com/in/franco-gonzalez-gimenez/" target="_blank" rel="noopener noreferrer">
+        <FontAwesomeIcon icon={faLinkedin} size="1x" className='me-1 footerButtons'/>
+        </a>
+        <a href="https://github.com/Amebin" target="_blank" rel="noopener noreferrer">
+        <FontAwesomeIcon icon={faGithub} size="1x" className='me-1 footerButtons'/>
+        </a>
+    </div>
       </Row>
 
     </footer> 

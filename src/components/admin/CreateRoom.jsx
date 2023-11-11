@@ -221,7 +221,7 @@ const CreateRoom = () => {
 
                 <Row className="mb-3">
                 <Form.Group as={Col} md="6" lg={{ span: 5, offset: 1}} xl="4" controlId="tittle">
-                        <Form.Label>Titulo (opcional)</Form.Label>
+                        <Form.Label>Titulo</Form.Label>
                         <Form.Control
                             type="text"
                             name="tittle"
@@ -232,7 +232,7 @@ const CreateRoom = () => {
                     </Form.Group>
 
                     <Form.Group as={Col} md="6" lg={{ span: 5, offset: 1}} xl="4" controlId="description">
-                        <Form.Label>Descripcion (opcional)</Form.Label>
+                        <Form.Label>Descripcion</Form.Label>
                         <Form.Control
                             type="text"
                             name="description"
@@ -247,7 +247,7 @@ const CreateRoom = () => {
                 <Row className="mb-3">
                 
                 <Form.Group as={Col} md="6" lg={{ span: 5, offset: 1}} xl="4" controlId="size">
-                        <Form.Label>Tamaño camas (opcional)</Form.Label>
+                        <Form.Label>Tamaño camas</Form.Label>
                         <Form.Control
                             type="text"
                             name="size"
@@ -258,7 +258,7 @@ const CreateRoom = () => {
                     </Form.Group>
 
                     <Form.Group as={Col} md="6" lg={{ span: 5, offset: 1}} xl="4" controlId="capacity">
-                        <Form.Label>Capacidad (opcional)</Form.Label>
+                        <Form.Label>Capacidad</Form.Label>
                         <Form.Control
                             type="number"
                             name="capacity"
@@ -274,7 +274,7 @@ const CreateRoom = () => {
                     <Form.Group as={Col}  controlId="validationCustom05">
 
                         <small className="text-muted">
-                            De manera automatica se generaran 20 fechas a partir del momento de la creacion de la nueva habitacion, luego podras modificar esto desde la seccion Admin de modificar habitaciones
+                            De manera automatica se generaran 20 fechas a partir del momento de la creacion de la nueva habitacion, luego podras modificar las fechas disponibles desde la seccion Admin de modificar habitaciones
                         </small>
                     </Form.Group>
                 <Button type="submit">Crear Habitacion</Button>

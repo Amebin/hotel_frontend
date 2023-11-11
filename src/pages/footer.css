@@ -10,6 +10,18 @@ footer a:hover{
     text-decoration: underline;
 }
 
+footer .footerButtons{
+    color: white;
+    background: var(--blue-500);
+    padding: 3px;
+    border-radius: 3px;
+}
+
+footer .footerButtons:hover{
+    background: var(--blue-600);
+}
+
+
 @media screen and (min-width: 1200px){
     footer .colFooter{
         padding: 0;

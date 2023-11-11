@@ -1,6 +1,7 @@
 import { Link, NavLink, useNavigate } from 'react-router-dom'
-import { Navbar, Nav, Container, Button } from 'react-bootstrap'
+import { Navbar, Nav, Container, Button, Image } from 'react-bootstrap'
 import { useJwt } from 'react-jwt';
+import logo from '../img/logo.jpg'
 import './menu.css'
 
 const Menu = () => {
@@ -23,8 +24,8 @@ const Menu = () => {
   return (
     <Navbar sticky="top" variant="dark" expand="xxl" style={{ zIndex: 40000 }}>
       <Container id='menuContainer'>
-        <Link className="navbar-brand" to="/">
-          <img className="img-home" alt="Portada Hotel" />
+        <Link className="navbar-brand" to="/" id='logoContenedor'>
+          <Image srcSet={ logo } alt='hotel logo' className='imgLogo'/>
         </Link>
         <Navbar.Toggle aria-controls="basic-navbar-nav" id="burguerButton"/>
 
