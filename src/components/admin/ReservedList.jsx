@@ -220,7 +220,7 @@ const AllReservations = () => {
                     <Col key={reservation._id} sm={{ span: 8, offset: 2 }} md={{ span: 6, offset: 0 }} lg={4} xxl={3}>
                     <Card  className="my-3 shadow">
                         <Card.Body>
-                            <Card.Title className='d-flex justify-content-between align-items-center'>{getRoomDetails(reservation.roomId).title}
+                            <Card.Title className='d-flex justify-content-between align-items-center'>Habitacion: {getRoomDetails(reservation.roomId).numberRoom}
                                 <Button
                                     variant="danger"
                                     onClick={() => onDelete(reservation._id)}
@@ -229,9 +229,6 @@ const AllReservations = () => {
                                     <i className="fas fa-trash-alt"></i> Eliminar
                                 </Button>
                             </Card.Title>
-                            <Card.Text>
-                                {getRoomDetails(reservation.roomId).description}
-                            </Card.Text>
                             <Card.Text>
                                 Tipo de habitacion: {getRoomDetails(reservation.roomId).tipeRoom}
                             </Card.Text>
