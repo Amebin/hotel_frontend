@@ -1,0 +1,9 @@
+#error404{
+    min-height: 62vh;
+}
+
+@media screen and (min-width: 1200px) {
+    #error404{
+        padding-top: 3vh;
+    }
+}
