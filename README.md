@@ -17,7 +17,7 @@
 ## Ejecutar el Proyecto
 Una vez que hayas completado la instalación, puedes ejecutar el proyecto con el siguiente comando:
 
-    npm start
+    npm run dev
 
 Esto iniciará la aplicación en el modo de desarrollo. Abre http://localhost:4000 en tu navegador para ver la aplicación.
 
