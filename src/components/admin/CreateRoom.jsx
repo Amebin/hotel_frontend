@@ -99,6 +99,7 @@ const CreateRoom = () => {
                 size: formNewRoom.size,
                 capacity: formNewRoom.capacity
             }
+            
             setLoading(true)
             const response = await fetch(`${appConfig.API_BASE_URL}${appConfig.CREATE_ROOM}`, {
                 method: 'POST',
@@ -109,7 +110,7 @@ const CreateRoom = () => {
                 body: JSON.stringify(newRoomData),
             })
             const resultResponse = await response.json()
-            
+            console.log(resultResponse)
             setLoading(false)
             if (response.status === 201) {
                 setToastMsg({ show: true, msg: 'Habitacion creada correctamente.' })
