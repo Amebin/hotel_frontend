@@ -144,8 +144,8 @@ const Rooms = () => {
                             <Card.Img variant="top" src={room.images} className='roomsImg'/>
                             <Card.Body>
                                 <Card.Title>{room.title}</Card.Title>
-                                <Card.Text>{room.description}</Card.Text>
-                                <Button className='buttonConfirmation' onClick={() => handleShow(room._id)}>Solicitar reserva</Button>
+                                <div id='roomDescription'><Card.Text>{room.description}</Card.Text>...</div>
+                                <Button className='buttonConfirmation' onClick={() => handleShow(room._id)}>Ver detalles</Button>
                             </Card.Body>
 
                             <Modal show={roomModal[room._id]} onHide={() => handleClose(room._id)} backdrop="static" keyboard={false}>
