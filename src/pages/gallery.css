@@ -3,6 +3,11 @@
     margin-bottom: 1vh;
 }
 
+#gallery .containerImg{
+    max-height: 40vh; 
+    overflow: hidden;
+}
+
 #gallery .images{
     object-fit: cover;
     min-height: 26vh;
@@ -11,6 +16,10 @@
 @media screen and (min-width: 576px) {
     #gallery .images{
         min-height: 14vh;
+    }
+
+    #gallery .containerImg{
+        max-height: 30vh; 
     }
 }
 
