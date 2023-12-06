@@ -53,6 +53,17 @@ const Register = () => {
             }
         }
 
+        if (!/^[A-Za-z ]+$/.test(frm.firstName) || frm.firstName === '') {
+            setToastMsg({ show: true, msg: 'Por favor, ingresa correctamente tu primer nombre, solo letras y espacios.' })
+            return;
+        }
+
+        if (!/^[A-Za-z ]+$/.test(frm.lastName) || frm.lastName === '') {
+            setToastMsg({ show: true, msg: 'Por favor, ingresa correctamente tu apellido, solo letras y espacios.' })
+            return;
+        }
+
+
         const emailRegex = /\S+@\S+\.\S+/
         if (!emailRegex.test(frm.email)) {
             setToastMsg({ show: true, msg: 'Por favor, ingresa un correo válido.' })
@@ -130,6 +141,7 @@ const Register = () => {
                                 value={frm.firstName}
                                 onChange={handleChange}
                                 isInvalid={!frm.firstName || frm.firstName.length < 2}
+                                pattern="[A-Za-z ]+"
                             />
                             <Form.Control.Feedback type="invalid">
                                 Ingrese su nombre por favor
@@ -145,6 +157,7 @@ const Register = () => {
                                 value={frm.lastName}
                                 onChange={handleChange}
                                 isInvalid={!frm.lastName || frm.lastName.length < 2}
+                                pattern="[A-Za-z ]+"
                             />
                             <Form.Control.Feedback type="invalid">
                                 Ingrese su apellido por favor
@@ -177,6 +190,7 @@ const Register = () => {
                                 onChange={handleChange}
                                 pattern=".{8,}"
                                 isInvalid={!frm.password || frm.password.length < 8}
+
                             />
                             <Form.Control.Feedback type="invalid">
                                 La contraseña debe tener 8 caracteres de longitud como minimo
@@ -203,11 +217,11 @@ const Register = () => {
                             <Form.Control
                                 type="tel"
                                 name="phone"
-                                pattern="[0-9]{10}" 
+                                pattern="[0-9]{10}"
                                 placeholder='Telefono'
                                 value={frm.phone}
                                 onChange={handleChange}
-                                
+
                                 isInvalid={!frm.phone}
                             />
                             <Form.Control.Feedback type="invalid">
